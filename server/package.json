@@ -1,0 +1,24 @@
+{
+  "name": "fittrack-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test test/app.test.js test/env.test.js",
+    "test:db": "node --test test/db.integration.test.js"
+  },
+  "dependencies": {
+    "dotenv": "18.0.10",
+    "express": "5.3.0",
+    "helmet": "8.3.0",
+    "mongoose": "9.12.2"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "11.3.0"
+  }
+}

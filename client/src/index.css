@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-stormy-teal: #16697a;
+  --color-brand-pacific-blue: #489fb5;
+  --color-brand-sky-blue: #82c0cc;
+  --color-brand-alabaster-grey: #ede7e3;
+  --color-brand-amber-glow: #ffa62b;
+  --color-canvas: #0b2931;
+  --color-ocean-surface: #103742;
+  --color-ocean-raised: #144854;
+  --color-ocean-secondary: #c1d3d6;
+  --color-ocean-border: #527985;
+  --font-ui: Manrope, ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: var(--font-ui);
+  background: #0b2931;
+  color: #ede7e3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

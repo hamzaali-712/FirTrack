@@ -1,0 +1,21 @@
+{
+  "name": "fittrack",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": ">=20.19.0",
+    "npm": ">=10.8.0"
+  },
+  "scripts": {
+    "dev:client": "npm run dev --workspace client",
+    "dev:server": "npm run dev --workspace server",
+    "build": "npm run build --workspace client",
+    "test": "npm run test --workspace server",
+    "test:db": "npm run test:db --workspace server",
+    "start": "npm run start --workspace server"
+  }
+}
