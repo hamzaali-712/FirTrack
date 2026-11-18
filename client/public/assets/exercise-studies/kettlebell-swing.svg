@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 250" role="img" aria-labelledby="kettlebell-swing-title kettlebell-swing-description" fill="none">
+  <title id="kettlebell-swing-title">Kettlebell Swing movement study</title>
+  <desc id="kettlebell-swing-description">Original simplified looping movement illustration. It is not form instruction and has not received independent exercise review.</desc>
+  <style>
+    .background{fill:#10252e}.ground{stroke:#31515b;stroke-width:2}.body{stroke:#ede7e3;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.far-limb{stroke:#489fb5;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.near-limb{stroke:#82c0cc;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.joint{fill:#ffa62b;stroke:#10252e;stroke-width:2}.head{fill:#82c0cc;stroke:#ede7e3;stroke-width:3}.eyebrow{fill:#ffa62b;font:600 8px system-ui,sans-serif;letter-spacing:1.2px}.label{fill:#ede7e3;font:600 11px system-ui,sans-serif}.caption{fill:#a8c6cc;font:500 7px system-ui,sans-serif;letter-spacing:.5px}
+    @media(prefers-reduced-motion:reduce){animate{display:none!important}}
+  </style>
+  <rect class="background" x="1" y="1" width="238" height="248" rx="18"/>
+  <text class="eyebrow" x="16" y="22">DRAFT REFERENCE</text>
+  <path class="ground" d="M18 202H222"/>
+  <path class="far-limb" d="M116 129 L106.4 158.5 L105.4 188.5 L114.4 188.5"><animate attributeName="d" values="M116 129 L106.4 158.5 L105.4 188.5 L114.4 188.5;M116 122 L106.4 151.5 L105.4 181.5 L114.4 181.5;M116 129 L106.4 158.5 L105.4 188.5 L114.4 188.5" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="body" d="M120 129 L160.1 92.9"><animate attributeName="d" values="M120 129 L160.1 92.9;M120 122 L120 68;M120 129 L160.1 92.9" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="far-limb" d="M155.1 92.9 L143.1 113.7 L137.1 135.9"><animate attributeName="d" values="M155.1 92.9 L143.1 113.7 L137.1 135.9;M115 68 L138.9 70.1 L161.8 72.1;M155.1 92.9 L143.1 113.7 L137.1 135.9" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M124 129 L133.6 158.5 L134.6 188.5 L143.6 188.5"><animate attributeName="d" values="M124 129 L133.6 158.5 L134.6 188.5 L143.6 188.5;M124 122 L133.6 151.5 L134.6 181.5 L143.6 181.5;M124 129 L133.6 158.5 L134.6 188.5 L143.6 188.5" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M165.1 92.9 L177.1 113.7 L183.1 135.9"><animate attributeName="d" values="M165.1 92.9 L177.1 113.7 L183.1 135.9;M125 68 L148.9 65.9 L171.8 63.9;M165.1 92.9 L177.1 113.7 L183.1 135.9" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <circle class="head" cx="160.1" cy="70.9" r="11"><animate attributeName="cx" values="160.1;120;160.1" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/><animate attributeName="cy" values="70.9;46;70.9" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="106.4" cy="158.5" r="3.5"><animate attributeName="cx" values="106.4;106.4;106.4" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/><animate attributeName="cy" values="158.5;151.5;158.5" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="133.6" cy="158.5" r="3.5"><animate attributeName="cx" values="133.6;133.6;133.6" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/><animate attributeName="cy" values="158.5;151.5;158.5" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="143.1" cy="113.7" r="3"><animate attributeName="cx" values="143.1;138.9;143.1" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/><animate attributeName="cy" values="113.7;70.1;113.7" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="177.1" cy="113.7" r="3"><animate attributeName="cx" values="177.1;148.9;177.1" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/><animate attributeName="cy" values="113.7;65.9;113.7" keyTimes="0;0.5;1" dur="1.7s" repeatCount="indefinite"/></circle>
+  <text class="label" x="120" y="224" text-anchor="middle">Kettlebell Swing</text>
+  <text class="caption" x="120" y="238" text-anchor="middle">CONCEPT ART · NOT FORM GUIDANCE</text>
+</svg>

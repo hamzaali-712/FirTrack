@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 250" role="img" aria-labelledby="plank-title plank-description" fill="none">
+  <title id="plank-title">Plank movement study</title>
+  <desc id="plank-description">Original simplified looping movement illustration. It is not form instruction and has not received independent exercise review.</desc>
+  <style>
+    .background{fill:#10252e}.ground{stroke:#31515b;stroke-width:2}.body{stroke:#ede7e3;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.far-limb{stroke:#489fb5;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.near-limb{stroke:#82c0cc;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.joint{fill:#ffa62b;stroke:#10252e;stroke-width:2}.head{fill:#82c0cc;stroke:#ede7e3;stroke-width:3}.eyebrow{fill:#ffa62b;font:600 8px system-ui,sans-serif;letter-spacing:1.2px}.label{fill:#ede7e3;font:600 11px system-ui,sans-serif}.caption{fill:#a8c6cc;font:500 7px system-ui,sans-serif;letter-spacing:.5px}
+    @media(prefers-reduced-motion:reduce){animate{display:none!important}}
+  </style>
+  <rect class="background" x="1" y="1" width="238" height="248" rx="18"/>
+  <text class="eyebrow" x="16" y="22">ILLUSTRATION STUDY</text>
+  <path class="ground" d="M18 196H222"/>
+  <path class="far-limb" d="M70 139 L39 139 L9 139 L0 139"><animate attributeName="d" values="M70 139 L39 139 L9 139 L0 139;M70 137 L39 137 L9 137 L0 137;M70 139 L39 139 L9 139 L0 139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="body" d="M74 139 L128 139"><animate attributeName="d" values="M74 139 L128 139;M74 137 L128 137;M74 139 L128 139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="far-limb" d="M123 139 L123 163 L123 186"><animate attributeName="d" values="M123 139 L123 163 L123 186;M123 137 L123 161 L123 184;M123 139 L123 163 L123 186" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M78 139 L47 139 L17 139 L8 139"><animate attributeName="d" values="M78 139 L47 139 L17 139 L8 139;M78 137 L47 137 L17 137 L8 137;M78 139 L47 139 L17 139 L8 139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M133 139 L133 163 L133 186"><animate attributeName="d" values="M133 139 L133 163 L133 186;M133 137 L133 161 L133 184;M133 139 L133 163 L133 186" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <circle class="head" cx="150" cy="139" r="11"><animate attributeName="cx" values="150;150;150" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="139;137;139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="39" cy="139" r="3.5"><animate attributeName="cx" values="39;39;39" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="139;137;139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="47" cy="139" r="3.5"><animate attributeName="cx" values="47;47;47" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="139;137;139" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="123" cy="163" r="3"><animate attributeName="cx" values="123;123;123" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="163;161;163" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="133" cy="163" r="3"><animate attributeName="cx" values="133;133;133" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="163;161;163" keyTimes="0;0.5;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <text class="label" x="120" y="224" text-anchor="middle">Plank</text>
+  <text class="caption" x="120" y="238" text-anchor="middle">CONCEPT ART · NOT FORM GUIDANCE</text>
+</svg>

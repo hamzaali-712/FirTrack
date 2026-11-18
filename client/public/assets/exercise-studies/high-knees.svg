@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 250" role="img" aria-labelledby="high-knees-title high-knees-description" fill="none">
+  <title id="high-knees-title">High Knees movement study</title>
+  <desc id="high-knees-description">Original simplified looping movement illustration. It is not form instruction and has not received independent exercise review.</desc>
+  <style>
+    .background{fill:#10252e}.ground{stroke:#31515b;stroke-width:2}.body{stroke:#ede7e3;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.far-limb{stroke:#489fb5;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.near-limb{stroke:#82c0cc;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.joint{fill:#ffa62b;stroke:#10252e;stroke-width:2}.head{fill:#82c0cc;stroke:#ede7e3;stroke-width:3}.eyebrow{fill:#ffa62b;font:600 8px system-ui,sans-serif;letter-spacing:1.2px}.label{fill:#ede7e3;font:600 11px system-ui,sans-serif}.caption{fill:#a8c6cc;font:500 7px system-ui,sans-serif;letter-spacing:.5px}
+    @media(prefers-reduced-motion:reduce){animate{display:none!important}}
+  </style>
+  <rect class="background" x="1" y="1" width="238" height="248" rx="18"/>
+  <text class="eyebrow" x="16" y="22">ILLUSTRATION STUDY</text>
+  <path class="ground" d="M18 202H222"/>
+  <path class="far-limb" d="M116 122 L131.5 95.2 L131.5 125.2 L140.5 125.2"><animate attributeName="d" values="M116 122 L131.5 95.2 L131.5 125.2 L140.5 125.2;M116 122 L106.4 151.5 L105.4 181.5 L114.4 181.5;M116 122 L131.5 95.2 L131.5 125.2 L140.5 125.2" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="body" d="M120 122 L120 68"><animate attributeName="d" values="M120 122 L120 68;M120 122 L120 68;M120 122 L120 68" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="far-limb" d="M115 68 L103 88.8 L97 111"><animate attributeName="d" values="M115 68 L103 88.8 L97 111;M115 68 L127 88.8 L121 111;M115 68 L103 88.8 L97 111" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M124 122 L133.6 151.5 L134.6 181.5 L143.6 181.5"><animate attributeName="d" values="M124 122 L133.6 151.5 L134.6 181.5 L143.6 181.5;M124 122 L108.5 95.2 L108.5 125.2 L117.5 125.2;M124 122 L133.6 151.5 L134.6 181.5 L143.6 181.5" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <path class="near-limb" d="M125 68 L137 88.8 L143 111"><animate attributeName="d" values="M125 68 L137 88.8 L143 111;M125 68 L113 88.8 L119 111;M125 68 L137 88.8 L143 111" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></path>
+  <circle class="head" cx="120" cy="46" r="11"><animate attributeName="cx" values="120;120;120" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/><animate attributeName="cy" values="46;46;46" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="131.5" cy="95.2" r="3.5"><animate attributeName="cx" values="131.5;106.4;131.5" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/><animate attributeName="cy" values="95.2;151.5;95.2" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="133.6" cy="151.5" r="3.5"><animate attributeName="cx" values="133.6;108.5;133.6" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/><animate attributeName="cy" values="151.5;95.2;151.5" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="103" cy="88.8" r="3"><animate attributeName="cx" values="103;127;103" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/><animate attributeName="cy" values="88.8;88.8;88.8" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/></circle>
+  <circle class="joint" cx="137" cy="88.8" r="3"><animate attributeName="cx" values="137;113;137" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/><animate attributeName="cy" values="88.8;88.8;88.8" keyTimes="0;0.5;1" dur="1.25s" repeatCount="indefinite"/></circle>
+  <text class="label" x="120" y="224" text-anchor="middle">High Knees</text>
+  <text class="caption" x="120" y="238" text-anchor="middle">CONCEPT ART · NOT FORM GUIDANCE</text>
+</svg>

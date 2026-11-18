@@ -1,0 +1,235 @@
+{
+  "status": "supplemental-unreviewed",
+  "count": 25,
+  "source": {
+    "repository": "https://github.com/AssiamahS/opengym3d/tree/ea3a60130fdcfb3c4771e44d09f84ebab4ee9bae",
+    "note": "The 24 published pack names are references only. Kettlebell Swing is a repository draft, not part of that published pack. All SVG artwork and motion keyframes here are original simplified studies; no upstream animation or artwork was copied."
+  },
+  "exercises": [
+    {
+      "slug": "bent-over-row",
+      "name": "Bent-Over Row",
+      "file": "bent-over-row.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "bicep-curl",
+      "name": "Bicep Curl",
+      "file": "bicep-curl.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "calf-raise",
+      "name": "Calf Raise",
+      "file": "calf-raise.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "crunch",
+      "name": "Crunch",
+      "file": "crunch.svg",
+      "sourceStatus": "published",
+      "family": "floor",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "deadlift",
+      "name": "Deadlift",
+      "file": "deadlift.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "dumbbell-shoulder-press",
+      "name": "Dumbbell Shoulder Press",
+      "file": "dumbbell-shoulder-press.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "front-raise",
+      "name": "Front Raise",
+      "file": "front-raise.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "glute-bridge",
+      "name": "Glute Bridge",
+      "file": "glute-bridge.svg",
+      "sourceStatus": "published",
+      "family": "floor",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "good-morning",
+      "name": "Good Morning",
+      "file": "good-morning.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "hammer-curl",
+      "name": "Hammer Curl",
+      "file": "hammer-curl.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "high-knees",
+      "name": "High Knees",
+      "file": "high-knees.svg",
+      "sourceStatus": "published",
+      "family": "cardio",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "jumping-jack",
+      "name": "Jumping Jack",
+      "file": "jumping-jack.svg",
+      "sourceStatus": "published",
+      "family": "cardio",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "lateral-raise",
+      "name": "Lateral Raise",
+      "file": "lateral-raise.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "lunge",
+      "name": "Lunge",
+      "file": "lunge.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "overhead-press",
+      "name": "Overhead Press",
+      "file": "overhead-press.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "overhead-tricep-extension",
+      "name": "Overhead Tricep Extension",
+      "file": "overhead-tricep-extension.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "plank",
+      "name": "Plank",
+      "file": "plank.svg",
+      "sourceStatus": "published",
+      "family": "floor",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "push-up",
+      "name": "Push-Up",
+      "file": "push-up.svg",
+      "sourceStatus": "published",
+      "family": "floor",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "reverse-lunge",
+      "name": "Reverse Lunge",
+      "file": "reverse-lunge.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "romanian-deadlift",
+      "name": "Romanian Deadlift",
+      "file": "romanian-deadlift.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "squat",
+      "name": "Squat",
+      "file": "squat.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "sumo-squat",
+      "name": "Sumo Squat",
+      "file": "sumo-squat.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "superman",
+      "name": "Superman",
+      "file": "superman.svg",
+      "sourceStatus": "published",
+      "family": "floor",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "wall-sit",
+      "name": "Wall Sit",
+      "file": "wall-sit.svg",
+      "sourceStatus": "published",
+      "family": "strength",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    },
+    {
+      "slug": "kettlebell-swing",
+      "name": "Kettlebell Swing",
+      "file": "kettlebell-swing.svg",
+      "sourceStatus": "repository-draft",
+      "family": "draft",
+      "reviewStatus": "not-reviewed",
+      "instructionalUse": false
+    }
+  ]
+}
