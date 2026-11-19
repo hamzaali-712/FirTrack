@@ -1979,6 +1979,77 @@ p {
   object-fit: cover;
 }
 
+.exercise-push-up-preview > .exercise-detail-image {
+  margin-bottom: 0.8rem;
+}
+
+.exercise-illustration-disclaimer {
+  margin: 0.8rem 0 0;
+  color: var(--color-faint);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.exercise-3d-viewer {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.exercise-3d-stage {
+  width: 100%;
+  min-height: 15rem;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 0.7rem;
+  background: #0b2931;
+}
+
+.exercise-3d-fallback {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.exercise-3d-fallback img {
+  width: 100%;
+  border-radius: 0.7rem;
+}
+
+.exercise-3d-fallback p {
+  margin: 0;
+}
+
+.exercise-3d-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.exercise-3d-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.exercise-3d-controls select {
+  min-height: 2.5rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  background: #0b2931;
+  color: var(--color-ink);
+}
+
+.exercise-3d-status {
+  color: var(--color-faint);
+  font-size: 0.78rem;
+}
+
 .exercise-media-panel h2 {
   font-size: 1rem;
 }

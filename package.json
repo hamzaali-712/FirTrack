@@ -21,6 +21,7 @@
     "seed:exercises": "npm run seed:exercises --workspace server",
     "generate:exercise-svg": "node scripts/generate-exercise-svg-studies.mjs",
     "test:exercise-svg": "node --test scripts/exercise-svg-studies.test.mjs",
+    "test:3d-asset": "node --test scripts/3d-asset.test.mjs",
     "start": "npm run start --workspace server"
   }
 }

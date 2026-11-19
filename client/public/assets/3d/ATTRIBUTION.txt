@@ -1,0 +1,17 @@
+FitTrack 3D exercise preview asset
+
+The push-up GLB and PNG poster are copied unchanged from the OpenGym3D 24
+Animated Gym Exercises pack at source commit
+ea3a60130fdcfb3c4771e44d09f84ebab4ee9bae:
+https://github.com/AssiamahS/opengym3d/tree/ea3a60130fdcfb3c4771e44d09f84ebab4ee9bae
+
+The pack states that it is MIT licensed; the included LICENSE.txt preserves
+that notice. Its README says the figure was generated with MPFB2 and the
+motions come from pose definitions. The source asset library identifies the
+human as CC0-1.0 and the Pushup motion as a CC0-1.0 Mesh2Motion clip, retargeted
+to the MakeHuman default rig. This upstream rights chain has not been
+independently audited.
+
+The animation is an illustrative preview only. It has not been independently
+reviewed for exercise form and is not coaching, medical, or safety guidance.
+See the project asset register for the pending review status and file hash.

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiRequest } from "../auth/api.js";
 import { useAuth } from "../auth/AuthContext.jsx";
@@ -35,6 +35,38 @@ const goalLabels = {
 };
 const equipmentLabels = Object.fromEntries(equipmentOptions);
 const groupLabels = Object.fromEntries(muscleGroups);
+const Exercise3DViewer = lazy(() => import("../components/Exercise3DViewer.jsx"));
+
+function PushUpPreview() {
+  const [showViewer, setShowViewer] = useState(false);
+  const posterUrl = "/assets/3d/push-up.v1.png";
+
+  return (
+    <div className="exercise-push-up-preview">
+      {showViewer ? (
+        <Suspense fallback={<p aria-live="polite" className="account-status">Loading 3D preview…</p>}>
+          <Exercise3DViewer exerciseName="Push-Up" posterUrl={posterUrl} />
+        </Suspense>
+      ) : (
+        <img
+          alt="Illustrative 3D push-up model poster; movement has not been independently reviewed."
+          className="exercise-detail-image"
+          loading="lazy"
+          src={posterUrl}
+        />
+      )}
+      {!showViewer ? (
+        <button className="button button-secondary" onClick={() => setShowViewer(true)} type="button">
+          Load 3D illustration
+        </button>
+      ) : null}
+      <p className="exercise-illustration-disclaimer">
+        Illustrative only—not independently reviewed and not form guidance. Written exercise
+        instructions remain the reference.
+      </p>
+    </div>
+  );
+}
 
 function ApplicationHeader({ active = "" }) {
   const { signOut, user } = useAuth();
@@ -347,16 +379,26 @@ export function ExerciseDetailPage() {
                 ) : null}
               </section>
               <aside className="exercise-media-panel">
-                {exercise.imageUrl ? (
+                {exercise.name === "Push-Up" && !exercise.animation ? (
+                  <PushUpPreview />
+                ) : exercise.imageUrl ? (
                   <img alt={`${exercise.name} reference`} className="exercise-detail-image" src={exercise.imageUrl} />
                 ) : (
                   <div aria-hidden="true" className="exercise-detail-placeholder">FT</div>
                 )}
-                <h2>{exercise.animation ? "Reviewed demonstration" : "Demonstration unavailable"}</h2>
+                <h2>
+                  {exercise.animation
+                    ? "Reviewed demonstration"
+                    : exercise.name === "Push-Up"
+                      ? "Illustrative 3D preview"
+                      : "Demonstration unavailable"}
+                </h2>
                 <p>
                   {exercise.animation
                     ? "A reviewed animation is available for this exercise."
-                    : "No reviewed 3D animation or image is available. The exercise instructions remain available."}
+                    : exercise.name === "Push-Up"
+                      ? "This locally hosted model is available as a technical preview; its movement has not been independently reviewed."
+                      : "No reviewed 3D animation or image is available. The exercise instructions remain available."}
                 </p>
               </aside>
             </div>

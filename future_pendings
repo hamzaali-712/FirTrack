@@ -1,6 +1,6 @@
 # Future Pendings
 
-Only work deferred or skipped while completing the first modules is listed here. Add an item when implementation is intentionally left incomplete; remove it only after the work is verified.
+Only work deferred or skipped during module execution is listed here. Add an item when implementation is intentionally left incomplete; remove it only after the work is verified.
 
 ## Carried forward from earlier modules
 
@@ -10,3 +10,4 @@ Only work deferred or skipped while completing the first modules is listed here.
 - [ ] Module 03 — Complete a formal accessibility audit of registration, login, and profile flows, including keyboard, screen-reader, contrast, and error-state checks.
 - [ ] Module 04 — Review exercise instructions, difficulty, equipment, and safety notes against credible sources with a qualified reviewer; current text is an original product draft and is not professionally or medically reviewed.
 - [ ] Module 04 / Module 06 — Connect exercise selection on the detail page to the workout-plan picker and persist selected exercise prescriptions when the plan-builder module is implemented.
+- [ ] Module 05 — Complete independent rights-chain verification and obtain an independent exercise-movement review for the pinned OpenGym3D push-up GLB; until approved, keep its viewer labeled illustrative and do not expose it as verified media. Review/approval evidence must be entered in `FitTrack-Professional-Docs/docs/ASSET-REGISTER.md`.

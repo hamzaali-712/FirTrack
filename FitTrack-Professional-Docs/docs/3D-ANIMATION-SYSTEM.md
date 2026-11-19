@@ -1,7 +1,7 @@
 # FitTrack — Realistic Anatomical 3D System Specification
 
 > **Project:** FitTrack · **Version:** 2.0 planning baseline · **Prepared:** 2026-11-18  
-> **Status:** Design/specification only; no implementation, live deployment, production security, test pass, medical accuracy review, or third-party asset license is claimed.  
+> **Status:** Module 05 has a lazy-loaded, unreviewed illustrative push-up viewer using a pinned third-party rigged model/clip. The required independent movement review and rights-chain verification remain incomplete, so no asset is approved for P0. This document remains the design specification, not evidence of P0 delivery.
 > **Constraints:** 2 developers · 8-week delivery window · MongoDB, Express.js, React.js, Node.js (MERN) · responsive web app.  
 
 
