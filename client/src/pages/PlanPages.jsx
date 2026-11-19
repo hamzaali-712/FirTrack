@@ -32,6 +32,7 @@ function ApplicationHeader({ active = "" }) {
         <Link aria-current={active === "plans" ? "page" : undefined} to="/plans">
           Plans
         </Link>
+        <Link aria-current={active === "history" ? "page" : undefined} to="/history">History</Link>
         <Link to="/profile">Profile</Link>
         <span className="application-user">{user.name}</span>
         <button className="button button-secondary" onClick={handleSignOut} type="button">

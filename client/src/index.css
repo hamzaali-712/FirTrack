@@ -2324,6 +2324,129 @@ p {
   font-size: 0.72rem;
 }
 
+.history-content,
+.history-detail-content {
+  max-width: 960px;
+}
+
+.history-list,
+.history-exercises {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.history-card,
+.history-exercise,
+.history-summary {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: rgba(16, 55, 66, 0.82);
+}
+
+.history-card {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) minmax(16rem, 1.7fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.4rem);
+}
+
+.history-card h2,
+.history-exercise h2 {
+  margin: 0.25rem 0;
+  font-size: 1.08rem;
+}
+
+.history-card p,
+.history-status,
+.history-detail-label {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.history-status {
+  color: var(--color-brand-sky-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+.history-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.history-facts div,
+.history-summary div {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.history-facts dt,
+.history-summary span {
+  color: var(--color-faint);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.history-facts dd {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.history-detail-content > h1 {
+  margin: 0.35rem 0 0.2rem;
+}
+
+.history-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+  padding: 1rem;
+}
+
+.history-summary strong {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.history-exercise {
+  padding: clamp(1rem, 3vw, 1.4rem);
+}
+
+.history-set-table {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+.history-set-row {
+  display: grid;
+  grid-template-columns: 4.5rem repeat(3, minmax(5rem, 0.7fr));
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.history-complete {
+  color: var(--color-brand-sky-blue);
+}
+
+.history-incomplete {
+  color: var(--color-faint);
+}
+
 @media (max-width: 800px) {
   .plans-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2351,6 +2474,18 @@ p {
   .workout-set > button,
   .workout-save-status {
     grid-column: 1 / -1;
+  }
+
+  .history-card {
+    grid-template-columns: 1fr;
+  }
+
+  .history-card .button {
+    width: 100%;
+  }
+
+  .history-set-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -2410,6 +2545,15 @@ p {
 
   .workout-set .button {
     width: 100%;
+  }
+
+  .history-facts,
+  .history-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .history-set-row {
+    grid-template-columns: 1fr;
   }
 }
 

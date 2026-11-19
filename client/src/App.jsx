@@ -6,6 +6,7 @@ import { ExerciseDetailPage, ExerciseLibraryPage } from "./pages/ExercisePages.j
 import { LoginPage, ProfilePage, RegisterPage } from "./pages/AuthPages.jsx";
 import { PlanDetailPage, PlansPage } from "./pages/PlanPages.jsx";
 import { WorkoutPage } from "./pages/WorkoutPage.jsx";
+import { HistoryDetailPage, HistoryPage } from "./pages/HistoryPages.jsx";
 
 const navigation = [
   ["Features", "#features"],
@@ -666,6 +667,22 @@ export default function App() {
             </ProtectedRoute>
           }
           path="/workout/:sessionId"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <HistoryPage />
+            </ProtectedRoute>
+          }
+          path="/history"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <HistoryDetailPage />
+            </ProtectedRoute>
+          }
+          path="/history/:sessionId"
         />
         <Route element={<NotFound />} path="*" />
       </Routes>

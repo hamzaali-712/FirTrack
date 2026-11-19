@@ -21,6 +21,7 @@ function WorkoutHeader() {
       <nav aria-label="Workout navigation" className="application-nav">
         <Link to="/plans">Plans</Link>
         <Link to="/exercises">Exercise library</Link>
+        <Link to="/history">History</Link>
         <span className="application-user">{user.name}</span>
         <button className="button button-secondary" onClick={handleSignOut} type="button">
           Sign out

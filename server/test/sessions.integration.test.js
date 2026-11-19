@@ -255,3 +255,70 @@ test("abandon frees the active slot and terminal states cannot be reversed", asy
   const emptyActive = await request("/sessions/active");
   assert.equal(emptyActive.body.data, null);
 });
+
+test("history is owner-scoped, paginated, and archived-plan snapshots remain readable", async () => {
+  const first = await WorkoutSession.create({
+    userId: userA._id,
+    sourcePlanId: plan._id,
+    sourceDayId: plan.days[0]._id,
+    planNameSnapshot: "Immutable Monday Plan",
+    dayLabelSnapshot: "Monday Snapshot",
+    status: "completed",
+    startedAt: new Date("2026-11-18T10:00:00.000Z"),
+    completedAt: new Date("2026-11-18T11:00:00.000Z"),
+    abandonedAt: null,
+    version: 3,
+    exercises: [{
+      exerciseId: (await Exercise.findOne({ slug: "push-up" }))._id,
+      nameSnapshot: "Push-Up",
+      trackingType: "reps_only",
+      position: 0,
+      targetSets: 1,
+      targetReps: 10,
+      targetDurationSec: null,
+      targetWeightKg: null,
+      sets: [{
+        position: 0,
+        reps: 12,
+        weightKg: null,
+        durationSec: null,
+        completed: true,
+      }],
+    }],
+  });
+  await WorkoutSession.create({
+    userId: userA._id,
+    sourcePlanId: plan._id,
+    sourceDayId: plan.days[0]._id,
+    planNameSnapshot: "Second Completed Plan",
+    dayLabelSnapshot: "Second Day",
+    status: "completed",
+    startedAt: new Date("2026-11-19T10:00:00.000Z"),
+    completedAt: new Date("2026-11-19T10:30:00.000Z"),
+    abandonedAt: null,
+    version: 2,
+    exercises: [],
+  });
+
+  plan.archivedAt = new Date();
+  await plan.save();
+
+  const list = await request("/sessions?status=completed&page=1&limit=1");
+  assert.equal(list.response.status, 200);
+  assert.equal(list.body.data.length, 1);
+  assert.equal(list.body.meta.limit, 1);
+  assert.equal(list.body.meta.hasNextPage, true);
+  assert.equal(list.body.data[0].completedSetCount >= 0, true);
+
+  const detail = await request(`/sessions/${first._id.toString()}`);
+  assert.equal(detail.response.status, 200);
+  assert.equal(detail.body.data.planNameSnapshot, "Immutable Monday Plan");
+  assert.equal(detail.body.data.exercises[0].sets[0].reps, 12);
+  assert.equal(detail.body.data.status, "completed");
+
+  const foreign = await request(`/sessions/${first._id.toString()}`, { cookie: cookieB, csrf: csrfB });
+  assert.equal(foreign.response.status, 404);
+
+  const invalid = await request("/sessions?status=unknown");
+  assert.equal(invalid.response.status, 400);
+});
