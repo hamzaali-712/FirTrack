@@ -8,7 +8,7 @@ export class ApiClientError extends Error {
   }
 }
 
-export async function apiRequest(path, { method = "GET", body, csrfToken } = {}) {
+export async function apiRequest(path, { method = "GET", body, csrfToken, signal } = {}) {
   const headers = { Accept: "application/json" };
   if (body !== undefined) headers["Content-Type"] = "application/json";
   if (csrfToken) headers["X-CSRF-Token"] = csrfToken;
@@ -18,6 +18,7 @@ export async function apiRequest(path, { method = "GET", body, csrfToken } = {})
     credentials: "include",
     headers,
     body: body === undefined ? undefined : JSON.stringify(body),
+    signal,
   });
   if (response.status === 204) return null;
 
@@ -39,6 +40,9 @@ export async function apiRequest(path, { method = "GET", body, csrfToken } = {})
       message: payload?.error?.message ?? "The request could not be completed.",
       fieldErrors: payload?.error?.fieldErrors ?? [],
     });
+  }
+  if (payload.meta) {
+    return { data: payload.data, meta: payload.meta };
   }
   return payload.data;
 }

@@ -297,6 +297,7 @@ export function ProfilePage() {
           <span>FitTrack</span>
         </Link>
         <div className="profile-header-actions">
+          <Link className="profile-library-link" to="/exercises">Exercise library</Link>
           <span className="profile-greeting">Hi, {user.name}</span>
           <button className="button button-secondary" disabled={logoutPending} onClick={handleLogout} type="button">
             {logoutPending ? "Signing out…" : "Sign out"}

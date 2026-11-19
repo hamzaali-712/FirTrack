@@ -11,6 +11,8 @@
     "start": "node src/server.js",
     "test": "node --test test/app.test.js test/env.test.js",
     "test:auth": "node --test test/auth.integration.test.js",
+    "test:exercises": "node --test test/exercises.integration.test.js",
+    "seed:exercises": "node src/scripts/seedExercises.js",
     "test:db": "node --test test/db.integration.test.js"
   },
   "dependencies": {

@@ -1,0 +1,12 @@
+# Future Pendings
+
+Only work deferred or skipped while completing the first modules is listed here. Add an item when implementation is intentionally left incomplete; remove it only after the work is verified.
+
+## Carried forward from earlier modules
+
+- [ ] Module 01 — Verify connectivity to the configured MongoDB deployment using a rotated, private development credential; prior persistence checks used an ephemeral local replica set only.
+- [ ] Module 01 — Complete the Open Anatomy source-rights review and acquire a licensed, realistic rigged anatomical model with at least one independently reviewed exercise animation. Static SVGs and the 25 exercise-study illustrations do not satisfy this requirement.
+- [ ] Module 02 — Replace the static anatomy illustration in the landing-page preview with a working, accessible preview of a licensed and reviewed exercise animation; keep the truthful fallback until then.
+- [ ] Module 03 — Complete a formal accessibility audit of registration, login, and profile flows, including keyboard, screen-reader, contrast, and error-state checks.
+- [ ] Module 04 — Review exercise instructions, difficulty, equipment, and safety notes against credible sources with a qualified reviewer; current text is an original product draft and is not professionally or medically reviewed.
+- [ ] Module 04 / Module 06 — Connect exercise selection on the detail page to the workout-plan picker and persist selected exercise prescriptions when the plan-builder module is implemented.

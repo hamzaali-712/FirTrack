@@ -26,7 +26,7 @@ erDiagram
 | Collection | Main fields | Integrity |
 |---|---|---|
 | `users` | `name`, `emailNormalized`, `passwordHash`, `primaryGoal`, `experienceLevel`, `equipmentPreferences`, `age?`, `heightCm?`, `currentWeightKg?` | Unique normalized email; never serialize hash |
-| `exercises` | `slug`, `name`, `primaryMuscleGroup`, `secondaryMuscleGroups[]`, `equipment[]`, `difficulty`, `trackingType`, `instructions[]`, `goalTags[]`, `imageUrl?`, `animation?`, `isActive` | Unique slug; media read-only via approved seed |
+| `exercises` | `slug`, `name`, `primaryMuscleGroup`, `secondaryMuscleGroups[]`, `equipment[]`, `difficulty`, `trackingType`, `instructions[]`, `safetyNotes[]`, `goalTags[]`, `imageUrl?`, `animation?`, internal `animationStatus` and `contentReviewStatus`, `isActive` | Unique slug; media read-only via approved seed; only verified media is playable; review flags remain internal |
 | `workoutPlans` | `userId`, `name`, `description`, `days[{id,label,weekday,exercises[]}]`, `version`, `archivedAt?` | Per-user only; atomic version CAS; ≤7 days; ≤20 per day |
 | `workoutSessions` | `userId`, `sourcePlanId`, `sourceDayId`, snapshot labels, `status`, `version`, `exercises[].sets[]`, start/finish times | One active per user; terminal immutable |
 | `authSessions` | `tokenHash`, nullable `userId`, `csrfTokenHash`, `expiresAt`, `revokedAt` | Server-only; 10-minute pre-auth state or 7-day authenticated state; revocation and expiry validated |
@@ -45,7 +45,10 @@ const ExerciseSchema = new Schema({
   trackingType: { type: String, enum: ['reps_weight','reps_only','duration'] },
   instructions: [String],
   imageUrl: { type: String, default: null },
-  animation: { type: Schema.Types.Mixed, default: null }, // controlled seed input ONLY; validate DTO strictly
+  safetyNotes: [String],
+  animation: { type: AnimationSchema, default: null }, // verified seed input only
+  animationStatus: { type: String, enum: ['missing','pending','verified'], select: false },
+  contentReviewStatus: { type: String, enum: ['draft','reviewed'], select: false },
   isActive: { type: Boolean, default: true }
 }, { timestamps: true, strict: 'throw' });
 ```

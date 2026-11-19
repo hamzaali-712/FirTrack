@@ -4,6 +4,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import { ApiError } from "./errors/ApiError.js";
 import { createAuthRouter } from "./routes/authRoutes.js";
+import { createExerciseRouter } from "./routes/exerciseRoutes.js";
 import { createProfileRouter } from "./routes/profileRoutes.js";
 
 export function createApp({
@@ -52,6 +53,7 @@ export function createApp({
   });
 
   app.use("/api/v1/auth", createAuthRouter(config));
+  app.use("/api/v1/exercises", createExerciseRouter(config));
   app.use("/api/v1/profile", createProfileRouter(config));
 
   app.use((_req, res) => {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import { ExerciseDetailPage, ExerciseLibraryPage } from "./pages/ExercisePages.jsx";
 import { LoginPage, ProfilePage, RegisterPage } from "./pages/AuthPages.jsx";
 
 const navigation = [
@@ -131,9 +132,14 @@ function SiteHeader() {
             Explore the Preview
           </a>
           {user ? (
-            <Link className="nav-account-link" onClick={closeMenu} to="/profile">
-              Your profile
-            </Link>
+            <>
+              <Link className="nav-account-link" onClick={closeMenu} to="/exercises">
+                Exercise library
+              </Link>
+              <Link className="nav-account-link" onClick={closeMenu} to="/profile">
+                Your profile
+              </Link>
+            </>
           ) : (
             <>
               <Link className="nav-account-link" onClick={closeMenu} to="/login">
@@ -611,6 +617,22 @@ export default function App() {
         <Route element={<LandingPage />} path="/" />
         <Route element={<LoginPage />} path="/login" />
         <Route element={<RegisterPage />} path="/register" />
+        <Route
+          element={
+            <ProtectedRoute>
+              <ExerciseLibraryPage />
+            </ProtectedRoute>
+          }
+          path="/exercises"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <ExerciseDetailPage />
+            </ProtectedRoute>
+          }
+          path="/exercises/:exerciseId"
+        />
         <Route
           element={
             <ProtectedRoute>

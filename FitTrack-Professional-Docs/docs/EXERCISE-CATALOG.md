@@ -1,7 +1,7 @@
 # FitTrack — Exercise Catalog, Content Model and Curation Policy
 
 > **Project:** FitTrack · **Version:** 2.0 planning baseline · **Prepared:** 2026-11-18  
-> **Status:** Design/specification only; no implementation, live deployment, production security, test pass, medical accuracy review, or third-party asset license is claimed.  
+> **Status:** Module 04 implementation now includes a MongoDB schema, idempotent 32-exercise seed, authenticated list/detail API, filters, and React discovery/detail screens. Local replica-set tests are run and reported in the project README. This does not claim a live Atlas seed, professional/medical review, or a verified third-party media license.
 > **Constraints:** 2 developers · 8-week delivery window · MongoDB, Express.js, React.js, Node.js (MERN) · responsive web app.  
 
 
@@ -9,7 +9,7 @@
 Seed a consistent MongoDB catalog with **≥32 distinct canonical exercises**, **≥4 per Chest, Back, Shoulders, Biceps, Triceps, Legs/Glutes, Core, Cardio**. Add richer subgroups later (quads/hamstrings/glutes/calves, conditioning, mobility) without breaking the existing API's 8-group enum or changing existing histories. Expansion to 80–120 records is a stretch target, not promised P0.
 
 ## 2. Required seeded candidate inventory (32 examples)
-These are **planning candidates, not verified published records**; exercise names, difficulty, equipment and descriptions must be curated and reviewed before seeding.
+These are **planning candidates**; exercise names, difficulty, equipment and original instructional drafts are not professional or medical guidance and must be reviewed against credible sources before they are represented as expert-verified.
 
 | Required group | Four minimum candidate examples |
 |---|---|
@@ -55,7 +55,7 @@ Search/filters combine via AND. `goal` changes ranking rather than catalog membe
 2. Research movement name/equipment/instructions from credible sources; write original paraphrase and record provenance.
 3. Ensure one exercise name/slug maps to one movement variant; variants use separate slugs where meaningful.
 4. Check images, 3D model and animation rights; no found-on-web media automatically publishable.
-5. Review instructions for harmful ambiguity with a qualified reviewer when possible; no medical certification claim without evidence.
+5. Review instructions for harmful ambiguity with a qualified reviewer when possible; no medical certification claim without evidence. Current seed text is explicitly awaiting that review.
 6. Apply metadata validation and idempotent seed (upsert by `slug`), with staged review/status field maintained by seed tooling.
 7. Execute seed audit: unique slug count; per-group counts; missing fields; clip status licensed/reviewed; duplicate names; safe URLs; total active.
 

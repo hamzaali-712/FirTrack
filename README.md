@@ -28,6 +28,14 @@ The project specifications are in [FitTrack-Professional-Docs/docs](./FitTrack-P
 
 4. Open the Vite URL printed in the client terminal. The client proxies `/api/v1` to the Express API.
 
+After configuring a development MongoDB instance, seed the curated exercise catalog once or rerun it safely:
+
+```powershell
+npm run seed:exercises
+```
+
+Exercise discovery requires an authenticated user. Registration and profile routes are available at `/register`, `/login`, and `/profile`; the exercise library and details are at `/exercises` and `/exercises/:exerciseId`.
+
 The API connects to MongoDB before listening. Startup reports a configuration or connection failure and exits nonzero rather than serving an application that cannot persist data. `GET /api/v1/health` is the API liveness check; `GET /api/v1/ready` reports whether MongoDB is connected.
 
 ## Checks
@@ -35,11 +43,12 @@ The API connects to MongoDB before listening. Startup reports a configuration or
 ```powershell
 npm test
 npm run test:auth
+npm run test:exercises
 npm run test:db
 npm run build
 ```
 
-`npm run test:db` starts an ephemeral MongoDB replica set through `mongodb-memory-server` and verifies the Mongoose connection and a temporary document write. Its first run downloads a MongoDB binary to the local package cache. `npm run test:auth` starts an ephemeral replica set and exercises the authentication and profile API. These tests do not verify production Atlas access or later fitness features.
+`npm run test:db` starts an ephemeral MongoDB replica set through `mongodb-memory-server` and verifies the Mongoose connection and a temporary document write. Its first run downloads a MongoDB binary to the local package cache. `npm run test:auth` tests authentication/profile endpoints and `npm run test:exercises` tests catalog seed, search, filters, and details, each against an ephemeral replica set. These checks do not verify production Atlas access or later fitness features.
 
 ## Current implementation status
 
@@ -52,6 +61,8 @@ A licensed 3D feasibility candidate has been identified: [Open Anatomy 3D](https
 **Module 02 — Landing Page:** Implemented a responsive FitTrack landing page with feature, anatomy-preview, catalog-concept, illustrative progress, workflow, and closing sections. Navigation uses working in-page anchors, with account links now connected to Module 03. The landing page includes two simplified static SVG anatomy interpretations with visible Open Anatomy attribution in [client/public/assets/landing](./client/public/assets/landing). These are not mesh exports, 3D viewer content, exercise animations, or anatomy guidance. The source project declares CC BY 4.0, but its upstream rights chain has not been independently audited. Client production build, SVG XML parsing, image loading, in-page links, mobile navigation, reduced-motion behavior, and responsive widths from 320px to 1440px were checked. No new runtime dependencies were added.
 
 **Module 03 — Authentication and Profile:** Implemented Argon2id password hashing, normalized unique email registration, generic login errors, opaque MongoDB-backed HttpOnly sessions, pre-auth CSRF bootstrap with session rotation, origin/CSRF checks, logout revocation, session hydration, shared HMAC-keyed MongoDB rate limits, protected profile access, and profile preference updates. The React client now provides registration, login, protected profile editing, and logout. The server unit suite passes (9/9), the authentication/profile integration suite passes (7/7) against a temporary MongoDB replica set, and the client production build passes. A manual browser flow verified registration, sign-in, profile persistence, and logout invalidation. A formal accessibility audit and connectivity to the configured Atlas deployment remain outstanding.
+
+**Module 04 — Exercise Catalog:** Implemented a unique-slug Mongoose catalog, deterministic/idempotent seed and audit for 32 exercises (four per required group), authenticated search/filter/pagination/detail APIs, relevance ordering for goal preferences, and protected responsive React library/detail screens. Missing images and unreviewed animations are represented honestly; the seed exposes no playable media. The exercise integration suite passes (7/7) against a temporary MongoDB replica set and the client build passes. The seed has not been run against the configured Atlas deployment, and the drafted movement instructions still need qualified review. Adding a selected exercise to a saved workout plan is deferred to Module 06. See [future_pendings](./future_pendings) for deferred work from Modules 01–04.
 
 The static anatomy preview is a fallback, not the required verified 3D exercise demonstration. Module 01 remains incomplete: Atlas did not reach a primary, the Open Anatomy assets have no exercise rig/animation, rights-chain review is outstanding, and no movement clip has received independent review.
 
