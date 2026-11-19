@@ -2070,6 +2070,230 @@ p {
   white-space: nowrap;
 }
 
+.plans-heading,
+.plan-detail-heading,
+.plan-day-heading,
+.plan-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.plans-heading h1,
+.plan-detail-heading h1 {
+  margin: 0.35rem 0 0;
+}
+
+.plan-create-card,
+.plan-day,
+.plan-card {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: rgba(16, 55, 66, 0.82);
+}
+
+.plan-create-card {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  max-width: 44rem;
+}
+
+.plan-create-card label,
+.plan-detail-heading label,
+.plan-description-field,
+.plan-day-heading label,
+.plan-exercise-row label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.plan-create-card input,
+.plan-create-card textarea,
+.plan-detail-heading input,
+.plan-description-field textarea,
+.plan-day-heading input,
+.plan-exercise-row input {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  background: #0b2931;
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.plan-create-card textarea,
+.plan-description-field textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.plan-card {
+  display: grid;
+  gap: 0.7rem;
+  min-height: 12rem;
+  padding: 1.2rem;
+}
+
+.plan-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.plan-card h2 a {
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.plan-card-meta,
+.plan-card p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.plan-detail-heading {
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.plan-detail-heading label {
+  width: min(32rem, 100%);
+}
+
+.plan-description-field {
+  max-width: 44rem;
+  margin-bottom: 1.2rem;
+}
+
+.plan-description-field textarea {
+  min-height: 4.5rem;
+}
+
+.plan-days {
+  display: grid;
+  gap: 1rem;
+}
+
+.plan-day {
+  padding: clamp(1rem, 3vw, 1.4rem);
+}
+
+.plan-day-heading {
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.plan-day-heading label {
+  width: min(28rem, 100%);
+}
+
+.plan-exercise-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.plan-exercise-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1.5fr) repeat(3, minmax(5rem, 0.55fr)) auto;
+  align-items: end;
+  gap: 0.65rem;
+  padding: 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: rgba(11, 41, 49, 0.7);
+}
+
+.plan-exercise-row > div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.plan-exercise-row > div span {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.plan-empty-day {
+  color: var(--color-muted);
+}
+
+.exercise-add-plan-link {
+  display: inline-flex;
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 800px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-exercise-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-exercise-row > div,
+  .plan-exercise-row > button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .plans-heading,
+  .plan-detail-heading,
+  .plan-day-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .plans-heading .button,
+  .plan-actions,
+  .plan-actions .button,
+  .plan-day-heading .button {
+    width: 100%;
+  }
+
+  .plan-actions {
+    align-items: stretch;
+  }
+
+  .plan-actions .button {
+    flex: 1;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-exercise-row {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-exercise-row > div,
+  .plan-exercise-row > button {
+    grid-column: auto;
+  }
+
+  .plan-exercise-row .button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1050px) {
   .exercise-filters {
     grid-template-columns: repeat(3, minmax(0, 1fr));

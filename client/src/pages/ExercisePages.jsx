@@ -93,6 +93,9 @@ function ApplicationHeader({ active = "" }) {
         <Link aria-current={active === "exercises" ? "page" : undefined} to="/exercises">
           Exercise library
         </Link>
+        <Link aria-current={active === "plans" ? "page" : undefined} to="/plans">
+          Plans
+        </Link>
         <Link aria-current={active === "profile" ? "page" : undefined} to="/profile">
           Profile
         </Link>
@@ -405,6 +408,12 @@ export function ExerciseDetailPage() {
             <p className="exercise-goal-tags">
               Suggested goals: {exercise.goalTags.map((tag) => goalLabels[tag] ?? tag).join(" · ")}
             </p>
+            <Link
+              className="button button-primary exercise-add-plan-link"
+              to={`/plans?addExerciseId=${encodeURIComponent(exercise.id)}`}
+            >
+              Add to a workout plan
+            </Link>
           </>
         ) : null}
       </section>

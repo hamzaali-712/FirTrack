@@ -8,10 +8,14 @@ export class ApiClientError extends Error {
   }
 }
 
-export async function apiRequest(path, { method = "GET", body, csrfToken, signal } = {}) {
+export async function apiRequest(
+  path,
+  { method = "GET", body, csrfToken, idempotencyKey, signal } = {},
+) {
   const headers = { Accept: "application/json" };
   if (body !== undefined) headers["Content-Type"] = "application/json";
   if (csrfToken) headers["X-CSRF-Token"] = csrfToken;
+  if (idempotencyKey) headers["Idempotency-Key"] = idempotencyKey;
 
   const response = await fetch(`/api/v1${path}`, {
     method,

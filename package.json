@@ -17,6 +17,7 @@
     "test": "npm run test --workspace server",
     "test:auth": "npm run test:auth --workspace server",
     "test:exercises": "npm run test:exercises --workspace server",
+    "test:plans": "npm run test:plans --workspace server",
     "test:db": "npm run test:db --workspace server",
     "seed:exercises": "npm run seed:exercises --workspace server",
     "generate:exercise-svg": "node scripts/generate-exercise-svg-studies.mjs",

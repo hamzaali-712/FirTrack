@@ -6,6 +6,7 @@ import { ApiError } from "./errors/ApiError.js";
 import { createAuthRouter } from "./routes/authRoutes.js";
 import { createExerciseRouter } from "./routes/exerciseRoutes.js";
 import { createProfileRouter } from "./routes/profileRoutes.js";
+import { createPlanRouter } from "./routes/planRoutes.js";
 
 export function createApp({
   isDatabaseReady = () => mongoose.connection.readyState === 1,
@@ -55,6 +56,7 @@ export function createApp({
   app.use("/api/v1/auth", createAuthRouter(config));
   app.use("/api/v1/exercises", createExerciseRouter(config));
   app.use("/api/v1/profile", createProfileRouter(config));
+  app.use("/api/v1/plans", createPlanRouter(config));
 
   app.use((_req, res) => {
     res.status(404).json({

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from "./auth/AuthContext.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import { ExerciseDetailPage, ExerciseLibraryPage } from "./pages/ExercisePages.jsx";
 import { LoginPage, ProfilePage, RegisterPage } from "./pages/AuthPages.jsx";
+import { PlanDetailPage, PlansPage } from "./pages/PlanPages.jsx";
 
 const navigation = [
   ["Features", "#features"],
@@ -640,6 +641,22 @@ export default function App() {
             </ProtectedRoute>
           }
           path="/profile"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <PlansPage />
+            </ProtectedRoute>
+          }
+          path="/plans"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <PlanDetailPage />
+            </ProtectedRoute>
+          }
+          path="/plans/:planId"
         />
         <Route element={<NotFound />} path="*" />
       </Routes>
