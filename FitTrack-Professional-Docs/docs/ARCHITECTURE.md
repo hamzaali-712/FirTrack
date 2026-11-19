@@ -332,21 +332,23 @@ Also `{userId:1,status:1,completedAt:-1,_id:-1}` for history and completed analy
 
 ### 4.7 `authSessions` and `idempotencyRecords`
 
-**Server-side session document (proposed TD-01):**
+**Server-side session document (approved TD-01):**
 
 ```js
 {
   _id: ObjectId,
   tokenHash: String,         // hash of random opaque cookie token
   userId: ObjectId|null,    // optional bounded pre-auth state
-  csrfSecretHashOrState: String,
+  csrfTokenHash: String,     // hash of deterministic session-bound CSRF token
   createdAt: Date,
   expiresAt: Date,
   revokedAt: Date|null
 }
 ```
 
-Lookup via unique `tokenHash`; TTL on `{expiresAt:1}` (`expireAfterSeconds:0`). **TTL is asynchronous cleanup, not security enforcement:** middleware must check `expiresAt > now` and `revokedAt === null` on every authenticated request. Use a 7-day absolute lifetime only once approved; rotate on login, clear/revoke on logout. For CSRF bootstrap pre-auth, either bounded pre-auth session or signed short-lived token must follow the `API-CONTRACT.md` contract; approve exact details before M2.
+Lookup via unique `tokenHash`; TTL on `{expiresAt:1}` (`expireAfterSeconds:0`). **TTL is asynchronous cleanup, not security enforcement:** middleware must check `expiresAt > now` and `revokedAt === null` on every request. Use the approved 7-day absolute lifetime; rotate on registration/login and clear/revoke on logout. Pre-auth state is a 10-minute session with `userId:null`; successful authentication creates a new session and invalidates the pre-auth session.
+
+**Authentication rate-limit window:** `authRateLimits` uses unique HMACed `keyHash` values and atomic count increments for fixed time buckets. Rate-limit checks compare the count to the limit synchronously; the TTL index only removes expired data asynchronously.
 
 **Idempotency record (proposed TD-02):**
 
@@ -430,7 +432,7 @@ Central middleware maps domain failures to the codes in `API-CONTRACT.md`: `BAD_
 
 ## 6. Authentication, Session Security, and Authorization
 
-### 6.1 Authentication decision (TD-01, proposed)
+### 6.1 Authentication decision (TD-01, approved)
 
 Select **revocable server-side sessions** over localStorage JWT for the MVP, because logout/revocation and long-lived workout resumption are straightforward. Cookie example:
 
@@ -438,11 +440,11 @@ Select **revocable server-side sessions** over localStorage JWT for the MVP, bec
 Set-Cookie: fittrack.sid=<random-opaque>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800
 ```
 
-Use `Secure` in production, HTTPS everywhere outside localhost, host-only cookie by omitting `Domain`, and avoid `localStorage`/`sessionStorage` for credentials. Cookie token is a CSPRNG-generated random value, stored server-side as a **hash**. Rotate identity/CSRF state after login, revoke active server token on logout. Session expiry must be enforced synchronously even if MongoDB TTL cleanup has not run.
+Use `Secure` in production, HTTPS everywhere outside localhost, host-only cookie by omitting `Domain`, and avoid `localStorage`/`sessionStorage` for credentials. Cookie token is a CSPRNG-generated random value, stored server-side as a **hash**. The approved absolute expiry is seven days. Rotate identity/CSRF state after registration/login, revoke the server token on logout. Session expiry must be enforced synchronously even if MongoDB TTL cleanup has not run.
 
 ### 6.2 CSRF and origin policy
 
-`GET /auth/csrf` returns an opaque token in `{data:{csrfToken}}` (no-store). All authenticated mutation requests require `X-CSRF-Token` matching session state, and state-changing requests are rejected for unapproved Origin/Referer. Registration and login also require pre-auth token bootstrap. Never rely on `SameSite` alone; explicitly allow only approved origins with credentialed CORS (no wildcard). After authentication rotation, client fetches a *new* CSRF token. Exact bootstrap and storage details remain pending technical sign-off.
+`GET /auth/csrf` returns an opaque token in `{data:{csrfToken}}` (`Cache-Control: no-store`). All state-changing requests require `X-CSRF-Token` matching session state and an allowlisted `Origin` (or same-origin `Referer` fallback). Registration and login use the approved bounded pre-auth session. Never rely on `SameSite` alone; explicitly allow only approved origins with credentialed CORS (no wildcard). After authentication rotates the session, the client fetches a new CSRF token.
 
 ### 6.3 Authorization and session ownership
 
@@ -450,7 +452,7 @@ Derive `userId` from authenticated server state, never from JSON or query string
 
 ### 6.4 Password/security controls
 
-Use Argon2id (preferred) or suitably costed bcrypt, unique normalized email, constant-shape generic credential errors, throttling for login/registration, strict JSON allowlists, security headers, bounded payloads, reasonable timeouts, escaped output rendering, parameterized ODM queries, environment-managed secrets and dependency audits. Do not log plaintext passwords, headers containing cookies or CSRF tokens, or full profile bodies.
+Use approved Argon2id hashing, unique normalized email, constant-shape generic credential errors, MongoDB-backed shared throttling for login/registration, strict JSON allowlists, security headers, bounded payloads, reasonable timeouts, escaped output rendering, parameterized ODM queries, environment-managed secrets and dependency audits. Do not log plaintext passwords, headers containing cookies or CSRF tokens, or full profile bodies.
 
 ---
 

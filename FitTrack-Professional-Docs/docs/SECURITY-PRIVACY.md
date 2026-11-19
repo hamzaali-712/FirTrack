@@ -38,15 +38,15 @@ flowchart TD
 | Dependency compromise | Execution / exfiltration | Lockfile, pinned versions, audit, source/license review, upgrades with tests |
 | Exhaustive queries | Availability | Query whitelist, max page=10000, limit ≤50, request size cap, rate limits |
 
-## 4. Authentication proposal — ratify TD-01 before W2
+## 4. Authentication decision — approved for Module 03
 - One server-managed **opaque, revocable session token** in cookie `fittrack.sid` (`HttpOnly`, `Secure` in production, `SameSite=Lax`, `Path=/`, scoped Max-Age); token hash in MongoDB store, fixed expiry and revocation checks at every request.
-- Proposed lifetime **7 days absolute**, not an approved default until owner signs TD-01. Rotate on login; revoke + clear on logout; logout is not merely removing React state.
-- State-changing cookie-auth requests require CSRF double-defense: issued CSRF token bound to session and allowlisted `Origin`/`Referer` policy. Pre-auth registration/login bootstrap must be decided and tested rather than omitted.
+- Approved lifetime **7 days absolute**. Rotate the session and CSRF state on successful registration/login; revoke and clear on logout. Logout is not merely removing React state.
+- State-changing cookie-auth requests require a CSRF token bound to the session and allowlisted `Origin`/same-origin `Referer` checks. Registration/login bootstrap uses a 10-minute pre-auth server session, then rotates on successful authentication; new bootstrap sessions are limited to 60 per IP per hour.
 - Production same-origin reverse proxy for React static files + `/api/v1` preferred. Strict credentialed CORS allowlist when cross-origin deployment unavoidable; no wildcard with credentials.
 - `GET /auth/session` returns safe user summary; cookie secret/session ID never exposed in JSON/localStorage.
 
 ## 5. Password policy and account errors
-Hash with Argon2id or suitably configured bcrypt (pending library decision). Strong password rules and rate limiting. `emailNormalized` unique. Duplicate registration may disclose known-email conflict because SRS requires explicit response; login always generic invalid-credentials. No password reset email in P0; do not show a fake 'Forgot Password' flow.
+Hash passwords with approved Argon2id. Enforce the documented 8–128 character bounds and never return hashes. Authentication rate-limit counters are shared through MongoDB; store HMACed identifiers rather than raw IP/email values and check window expiry synchronously (TTL cleanup is not enforcement). Initial limits: 5 registrations/IP/hour, 30 login attempts/IP/15 minutes, and 8 login attempts/IP+normalized-email/15 minutes. `emailNormalized` is unique. Duplicate registration may disclose known-email conflict because SRS requires explicit response; login always returns the same generic invalid-credentials response. No password reset email in P0; do not show a fake 'Forgot Password' flow.
 
 ## 6. Authorization matrix
 | Endpoint/resource | Visitor | Owner | Other signed-in user |

@@ -10,9 +10,11 @@
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "node --test test/app.test.js test/env.test.js",
+    "test:auth": "node --test test/auth.integration.test.js",
     "test:db": "node --test test/db.integration.test.js"
   },
   "dependencies": {
+    "argon2": "0.45.2",
     "dotenv": "18.0.10",
     "express": "5.3.0",
     "helmet": "8.3.0",

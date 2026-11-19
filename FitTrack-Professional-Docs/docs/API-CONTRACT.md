@@ -129,11 +129,11 @@ A response example containing a fixed ID or timestamp is **illustrative**, not a
 
 ## 2. Authentication and security contract
 
-### 2.1 Proposed resolution of TD-01: server-side sessions
+### 2.1 Approved resolution of TD-01: server-side sessions
 
-**Proposed for M2 (pending sign-off):** use opaque random session IDs in a `HttpOnly`, `Secure` (production), `SameSite=Lax`, `Path=/` cookie named `fittrack.sid`, backed by a server-side revocable session store (MongoDB, with expiry). This avoids browser-stored bearer tokens and enables meaningful logout. For same-origin deployment, use a reverse proxy serving the React app and API under the same site. Session lifetime **proposed**: 7 days of absolute validity; document and test expiry behavior. Rotate session ID after login; invalidate the previous session on logout. Never embed session IDs in JSON or localStorage.
+**Approved for Module 03:** use opaque random session IDs in a `HttpOnly`, `Secure` (production), `SameSite=Lax`, `Path=/` cookie named `fittrack.sid`, backed by a server-side revocable MongoDB session store. Use a seven-day absolute expiry; rotate the session ID after login/registration and revoke it on logout. Never embed session IDs in JSON or browser storage. For same-origin deployment, use a reverse proxy serving the React app and API under the same site.
 
-**CSRF:** for every authenticated state-changing request, require a server-issued CSRF token from `GET /api/v1/auth/csrf`, returned in JSON and transmitted in `X-CSRF-Token`; validate token against the current session. Bootstrap a CSRF token for unauthenticated registration/login using a bounded pre-auth session or signed token and check `Origin`/`Referer` against allowlisted app origins on state-changing requests. CSRF token is not a credential replacement. In production reject cross-site origins; configure credentialed CORS only for **explicit** React origin(s), never `*`. Do not accept credentials in query strings. `SameSite` alone is not the sole CSRF defense.
+**CSRF:** every state-changing request requires a server-issued token from `GET /api/v1/auth/csrf`, returned in JSON and transmitted in `X-CSRF-Token`; validate it against the current session. Registration/login bootstrap uses a bounded pre-auth MongoDB session (10-minute expiry), rotated on successful authentication. Limit new bootstrap sessions to 60 per IP per hour. Require an allowlisted `Origin` (or same-origin `Referer` fallback) on mutations. The token is not a credential replacement. In production reject cross-site origins; configure credentialed CORS only for explicit React origins, never `*`. Do not accept credentials in query strings. `SameSite` alone is not the CSRF defense.
 
 **Cookie example (production):**
 
@@ -151,7 +151,9 @@ Cookie: fittrack.sid=<opaque-session-id>
 X-CSRF-Token: <server-issued-csrf-token>
 ```
 
-**Security baseline:** hash passwords with a vetted slow algorithm (Argon2id preferred; bcrypt with a suitable cost is acceptable), apply strong input validation, parameter/query allowlists, rate-limit authentication and writes, use HTTP security headers, bound request sizes (suggest 64 KiB JSON body for P0), use environment secrets, protect against NoSQL operator injection, and prohibit cross-user record access. Never store passwords in plaintext; log request IDs and safe statuses, never session cookies or password bodies.
+**Security baseline:** use Argon2id password hashing; apply strong input validation and parameter/query allowlists; use MongoDB-backed shared authentication rate-limit counters with HMACed identifiers; use HTTP security headers; bound request sizes to 64 KiB JSON; use environment secrets; protect against NoSQL operator injection; and prohibit cross-user record access. Never store or return passwords in plaintext or log session cookies, CSRF tokens, or password bodies.
+
+The initial authentication rate limits are: 5 registrations per IP per hour, 30 login attempts per IP per 15 minutes, and 8 login attempts per IP+normalized-email per 15 minutes. Counters use atomic fixed windows; the HMAC secret is configured through `AUTH_HMAC_SECRET`. These thresholds are implementation defaults and must be monitored and tuned for the production ingress.
 
 ### 2.2 Authorization matrix
 
@@ -953,7 +955,7 @@ Do **not** build a separate gym-management/admin interface. Do **not** replace N
 
 | Decision | Proposed v1 choice | Source / sign-off milestone |
 |---|---|---|
-| TD-01 Auth transport | Server-managed opaque cookie sessions, CSRF token, 7-day expiry | `ADR-DECISIONS.md` TD-01; before M2 |
+| TD-01 Auth transport | Server-managed opaque cookie sessions, bounded pre-auth CSRF session, 7-day absolute expiry | `ADR-DECISIONS.md` TD-01; approved for M3 |
 | TD-02 Idempotency | Idempotency key on create, unique partial active index, atomic terminal transitions | TD-02; before M5 (plan-create details before M4) |
 | TD-03 Timezone | IANA `tz`, UTC storage, Monday week | TD-03; before M6 |
 | TD-04 Tracking | `reps_weight`, `reps_only`, `duration`; kg/seconds | TD-04; before M3/M5 |

@@ -29,7 +29,8 @@ erDiagram
 | `exercises` | `slug`, `name`, `primaryMuscleGroup`, `secondaryMuscleGroups[]`, `equipment[]`, `difficulty`, `trackingType`, `instructions[]`, `goalTags[]`, `imageUrl?`, `animation?`, `isActive` | Unique slug; media read-only via approved seed |
 | `workoutPlans` | `userId`, `name`, `description`, `days[{id,label,weekday,exercises[]}]`, `version`, `archivedAt?` | Per-user only; atomic version CAS; ≤7 days; ≤20 per day |
 | `workoutSessions` | `userId`, `sourcePlanId`, `sourceDayId`, snapshot labels, `status`, `version`, `exercises[].sets[]`, start/finish times | One active per user; terminal immutable |
-| `authSessions` | `tokenHash`, `userId`, `csrfState`, `expiresAt`, `revokedAt` | Server-only; revocation and expiry validated |
+| `authSessions` | `tokenHash`, nullable `userId`, `csrfTokenHash`, `expiresAt`, `revokedAt` | Server-only; 10-minute pre-auth state or 7-day authenticated state; revocation and expiry validated |
+| `authRateLimits` | `keyHash`, `count`, `expiresAt` | Server-only; HMACed identifiers; atomic shared windows; TTL cleanup is not enforcement |
 | `idempotencyRecords` | `userId`, `method`, `routeKey`, `key`, `payloadHash`, `state`, `responseBody`, expiry | User + method + route + key unique; TTL cleanup only |
 
 ## 4. Mongoose schema sketch (not running code)

@@ -7,7 +7,7 @@ async function startServer() {
   const config = loadEnvironment();
   await connectDatabase(config.mongoUri);
 
-  const app = createApp();
+  const app = createApp({ config });
   const server = app.listen(config.port, "127.0.0.1", () => {
     console.log(`FitTrack API listening on http://127.0.0.1:${config.port}`);
   });

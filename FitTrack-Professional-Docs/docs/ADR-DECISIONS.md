@@ -23,7 +23,7 @@
 ## 2. Technical decision register
 | ID | Decision or issue | Recommended resolution | Status / deadline |
 |---|---|---|---|
-| TD-01 | Authentication transport | Opaque server sessions in secure HttpOnly cookie; CSRF and origin checks; define pre-auth bootstrap | Proposed; approve before W2 |
+| TD-01 | Authentication transport | Opaque MongoDB-backed `fittrack.sid` cookie sessions; bounded pre-auth CSRF session, rotate on authentication; 7-day absolute expiry; exact Origin checks | User-approved for Module 03 |
 | TD-02 | Retry/duplicate writes | Partial unique active index + CAS + idempotency keys/ledger, transaction tests on replica set | Proposed; approve before W4/W5 |
 | TD-03 | Week boundaries | Validated IANA timezone; Monday local 00:00, convert to UTC bounds | Proposed; approve before W6 |
 | TD-04 | Tracking types | `reps_weight`, `reps_only`, `duration` only P0; kg/sec | Proposed; approve before W3 |
@@ -39,6 +39,8 @@
 | TD-14 | Exercise animation coverage | One licensed/form-reviewed clip P0; 6–10 P1 stretch, no promise for all | Proposed release cutline, product approval pending |
 | TD-15 | Manrope source | Self-host permitted OFL webfont with fallback after license verification | Proposed; decide W1 |
 | TD-16 | Privacy/legal policy | Define retention, rights, text and jurisdiction before actual public user launch | Open; not solved by documentation alone |
+| TD-17 | Password hashing | Argon2id; never persist or return plaintext credentials | User-approved for Module 03 |
+| TD-18 | Authentication rate-limit storage | MongoDB-backed shared counters with HMACed identifiers and synchronous expiry checks | User-approved for Module 03 |
 
 ## 3. Decisions needing consistency corrections from original M0 audit
 The preexisting `M0_AUDIT.md` reported (i) documentation statuses lagged actual authored specifications, (ii) early `idea.md` open questions were resolved by the SRS, (iii) session/idempotency/CSRF designs were proposals not approvals, (iv) database update/CAS tests were not proven, and (v) old `PROJECT.md` was a lower-authority summary. This revised pack therefore:

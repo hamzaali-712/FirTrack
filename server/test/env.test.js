@@ -33,10 +33,57 @@ test("configuration accepts the local development settings", () => {
       APP_ORIGIN: "http://localhost:5173",
     }),
     {
+      allowedOrigins: [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+      ],
       appOrigin: "http://localhost:5173",
+      authHmacSecret:
+        "fittrack-development-only-hmac-secret-not-for-production",
       mongoUri: "mongodb://127.0.0.1:27017/fittrack",
       nodeEnv: "development",
       port: 5000,
+      trustProxyHops: 0,
     },
+  );
+});
+
+test("production requires a strong HMAC secret and validates proxy hops", () => {
+  assert.throws(
+    () =>
+      getConfig({
+        MONGODB_URI: "mongodb://localhost/db",
+        NODE_ENV: "production",
+        APP_ORIGIN: "https://app.example.test",
+      }),
+    /AUTH_HMAC_SECRET must be a non-placeholder value/,
+  );
+  assert.throws(
+    () =>
+      getConfig({
+        MONGODB_URI: "mongodb://localhost/db",
+        NODE_ENV: "production",
+        APP_ORIGIN: "https://app.example.test",
+        AUTH_HMAC_SECRET: "replace-with-at-least-32-random-characters",
+      }),
+    /AUTH_HMAC_SECRET must be a non-placeholder value/,
+  );
+  assert.throws(
+    () =>
+      getConfig({
+        MONGODB_URI: "mongodb://localhost/db",
+        TRUST_PROXY_HOPS: "-1",
+      }),
+    /TRUST_PROXY_HOPS must be an integer/,
+  );
+  assert.throws(
+    () =>
+      getConfig({
+        MONGODB_URI: "mongodb://localhost/db",
+        NODE_ENV: "production",
+        AUTH_HMAC_SECRET: "a-production-secret-with-at-least-32-chars",
+        APP_ORIGIN: "http://app.example.test",
+      }),
+    /APP_ORIGIN must use HTTPS in production/,
   );
 });
