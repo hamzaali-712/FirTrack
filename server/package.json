@@ -13,6 +13,7 @@
     "test:auth": "node --test test/auth.integration.test.js",
     "test:exercises": "node --test test/exercises.integration.test.js",
     "test:plans": "node --test test/plans.integration.test.js",
+    "test:sessions": "node --test test/sessions.integration.test.js",
     "seed:exercises": "node src/scripts/seedExercises.js",
     "test:db": "node --test test/db.integration.test.js"
   },

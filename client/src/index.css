@@ -2238,6 +2238,92 @@ p {
   margin-top: 1.2rem;
 }
 
+.workout-page {
+  max-width: 1120px;
+}
+
+.workout-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.workout-heading h1,
+.workout-heading p {
+  margin: 0.35rem 0 0;
+}
+
+.workout-exercises {
+  display: grid;
+  gap: 1rem;
+}
+
+.workout-exercise {
+  padding: clamp(1rem, 3vw, 1.4rem);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: rgba(16, 55, 66, 0.82);
+}
+
+.workout-exercise h2,
+.workout-exercise > p {
+  margin: 0 0 0.55rem;
+}
+
+.workout-exercise > p {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.workout-set-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.workout-set {
+  display: grid;
+  grid-template-columns: 4.5rem repeat(3, minmax(7rem, 0.7fr)) minmax(8rem, auto) minmax(7rem, auto);
+  align-items: end;
+  gap: 0.65rem;
+  padding: 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: rgba(11, 41, 49, 0.7);
+}
+
+.workout-set label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.workout-set input[type="number"] {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.55rem;
+  background: #0b2931;
+  color: var(--color-ink);
+}
+
+.workout-set .workout-completed {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  min-height: 2.6rem;
+  white-space: nowrap;
+}
+
+.workout-save-status {
+  color: var(--color-brand-sky-blue);
+  font-size: 0.72rem;
+}
+
 @media (max-width: 800px) {
   .plans-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2249,6 +2335,21 @@ p {
 
   .plan-exercise-row > div,
   .plan-exercise-row > button {
+    grid-column: 1 / -1;
+  }
+
+  .workout-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workout-set {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workout-set > strong,
+  .workout-set > button,
+  .workout-save-status {
     grid-column: 1 / -1;
   }
 }
@@ -2290,6 +2391,24 @@ p {
   }
 
   .plan-exercise-row .button {
+    width: 100%;
+  }
+
+  .workout-heading .plan-actions {
+    flex-direction: column;
+  }
+
+  .workout-set {
+    grid-template-columns: 1fr;
+  }
+
+  .workout-set > strong,
+  .workout-set > button,
+  .workout-save-status {
+    grid-column: auto;
+  }
+
+  .workout-set .button {
     width: 100%;
   }
 }

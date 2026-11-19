@@ -319,6 +319,25 @@ export function PlanDetailPage() {
     }
   }
 
+  async function startDay(dayId) {
+    setSaving(true);
+    setError("");
+    try {
+      const csrfToken = await getCsrfToken();
+      const result = await apiRequest("/sessions", {
+        method: "POST",
+        body: { planId, dayId },
+        csrfToken,
+        idempotencyKey: randomUUID(),
+      });
+      navigate(`/workout/${result.id}`);
+    } catch (requestError) {
+      setError(requestError.message || "We could not start this workout.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   async function archivePlan() {
     if (!window.confirm("Archive this plan? Its existing completed session history will remain available.")) {
       return;
@@ -390,6 +409,14 @@ export function PlanDetailPage() {
                     </label>
                     <button className="button button-secondary" onClick={() => addExercise(day.id)} type="button">
                       Add exercise
+                    </button>
+                    <button
+                      className="button button-primary"
+                      disabled={saving || day.exercises.length === 0}
+                      onClick={() => startDay(day.id)}
+                      type="button"
+                    >
+                      Start workout
                     </button>
                   </div>
                   {day.exercises.length ? (

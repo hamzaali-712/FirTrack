@@ -298,6 +298,8 @@ export function ProfilePage() {
         </Link>
         <div className="profile-header-actions">
           <Link className="profile-library-link" to="/exercises">Exercise library</Link>
+          <Link className="profile-library-link" to="/plans">Workout plans</Link>
+          <Link className="profile-library-link" to="/workout/active">Resume workout</Link>
           <span className="profile-greeting">Hi, {user.name}</span>
           <button className="button button-secondary" disabled={logoutPending} onClick={handleLogout} type="button">
             {logoutPending ? "Signing out…" : "Sign out"}

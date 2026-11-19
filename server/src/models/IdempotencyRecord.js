@@ -4,7 +4,7 @@ const idempotencyRecordSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     method: { type: String, required: true, enum: ["POST"] },
-    routeKey: { type: String, required: true, enum: ["plans"] },
+    routeKey: { type: String, required: true, enum: ["plans", "sessions"] },
     key: { type: String, required: true, match: /^[a-f\d]{8}-[a-f\d]{4}-[1-5][a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/i },
     payloadHash: { type: String, required: true, match: /^[a-f\d]{64}$/ },
     statusCode: { type: Number, required: true },

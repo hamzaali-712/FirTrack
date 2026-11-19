@@ -7,6 +7,7 @@ import { createAuthRouter } from "./routes/authRoutes.js";
 import { createExerciseRouter } from "./routes/exerciseRoutes.js";
 import { createProfileRouter } from "./routes/profileRoutes.js";
 import { createPlanRouter } from "./routes/planRoutes.js";
+import { createSessionRouter } from "./routes/sessionRoutes.js";
 
 export function createApp({
   isDatabaseReady = () => mongoose.connection.readyState === 1,
@@ -57,6 +58,7 @@ export function createApp({
   app.use("/api/v1/exercises", createExerciseRouter(config));
   app.use("/api/v1/profile", createProfileRouter(config));
   app.use("/api/v1/plans", createPlanRouter(config));
+  app.use("/api/v1/sessions", createSessionRouter(config));
 
   app.use((_req, res) => {
     res.status(404).json({
