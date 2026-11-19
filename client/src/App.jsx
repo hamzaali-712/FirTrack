@@ -7,6 +7,7 @@ import { LoginPage, ProfilePage, RegisterPage } from "./pages/AuthPages.jsx";
 import { PlanDetailPage, PlansPage } from "./pages/PlanPages.jsx";
 import { WorkoutPage } from "./pages/WorkoutPage.jsx";
 import { HistoryDetailPage, HistoryPage } from "./pages/HistoryPages.jsx";
+import { DashboardPage, ProgressPage } from "./pages/AnalyticsPages.jsx";
 
 const navigation = [
   ["Features", "#features"],
@@ -683,6 +684,22 @@ export default function App() {
             </ProtectedRoute>
           }
           path="/history/:sessionId"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+          path="/dashboard"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <ProgressPage />
+            </ProtectedRoute>
+          }
+          path="/progress"
         />
         <Route element={<NotFound />} path="*" />
       </Routes>

@@ -322,3 +322,83 @@ test("history is owner-scoped, paginated, and archived-plan snapshots remain rea
   const invalid = await request("/sessions?status=unknown");
   assert.equal(invalid.response.status, 400);
 });
+
+test("analytics are completed-only and dashboard/progress reconcile canonical formulas", async () => {
+  const bench = await Exercise.findOne({ slug: "barbell-bench-press" });
+  await WorkoutSession.create({
+    userId: userA._id,
+    sourcePlanId: plan._id,
+    sourceDayId: plan.days[0]._id,
+    planNameSnapshot: "Bench Analytics",
+    dayLabelSnapshot: "Monday Bench",
+    status: "completed",
+    startedAt: new Date("2026-11-18T10:00:00.000Z"),
+    completedAt: new Date("2026-11-18T11:00:00.000Z"),
+    abandonedAt: null,
+    version: 4,
+    exercises: [{
+      exerciseId: bench._id,
+      nameSnapshot: "Barbell Bench Press",
+      trackingType: "reps_weight",
+      position: 0,
+      targetSets: 3,
+      targetReps: 10,
+      targetDurationSec: null,
+      targetWeightKg: null,
+      sets: [
+        { position: 0, reps: 12, weightKg: 40, durationSec: null, completed: true },
+        { position: 1, reps: 10, weightKg: 45, durationSec: null, completed: true },
+        { position: 2, reps: 8, weightKg: 50, durationSec: null, completed: true },
+      ],
+    }],
+  });
+
+  await WorkoutSession.create({
+    userId: userA._id,
+    sourcePlanId: plan._id,
+    sourceDayId: plan.days[0]._id,
+    planNameSnapshot: "Abandoned Analytics",
+    dayLabelSnapshot: "Abandoned",
+    status: "abandoned",
+    startedAt: new Date("2026-11-18T12:00:00.000Z"),
+    completedAt: null,
+    abandonedAt: new Date("2026-11-18T12:10:00.000Z"),
+    version: 2,
+    exercises: [{
+      exerciseId: bench._id,
+      nameSnapshot: "Barbell Bench Press",
+      trackingType: "reps_weight",
+      position: 0,
+      targetSets: 3,
+      targetReps: 10,
+      targetDurationSec: null,
+      targetWeightKg: null,
+      sets: [
+        { position: 0, reps: 12, weightKg: 100, durationSec: null, completed: true },
+      ],
+    }],
+  });
+
+  const progress = await request("/progress/summary?weeks=8&tz=UTC");
+  assert.equal(progress.response.status, 200);
+  assert.equal(progress.body.data.weeks, 8);
+  assert.equal(progress.body.data.workoutsByWeek.length, 8);
+  assert.ok(progress.body.data.workoutsByWeek.every((week) => /^2026-\d{2}-\d{2}$/.test(week.weekStartLocal)));
+  assert.equal(progress.body.data.totalCompletedSets >= 3, true);
+  assert.equal(progress.body.data.totalVolumeKg >= 1330, true);
+
+  const dashboard = await request("/dashboard/summary?tz=Asia%2FKarachi");
+  assert.equal(dashboard.response.status, 200);
+  assert.equal(dashboard.body.data.timezone, "Asia/Karachi");
+  assert.equal(typeof dashboard.body.data.completedWorkoutsThisWeek, "number");
+  assert.equal(typeof dashboard.body.data.completedSetsThisWeek, "number");
+  assert.equal(Array.isArray(dashboard.body.data.recentWorkouts), true);
+  assert.ok(dashboard.body.data.recentWorkouts.length <= 5);
+
+  const invalidTimezone = await request("/dashboard/summary?tz=Not%2FAZone");
+  assert.equal(invalidTimezone.response.status, 400);
+  assert.equal(invalidTimezone.body.error.code, "INVALID_TIMEZONE");
+
+  const invalidWeeks = await request("/progress/summary?weeks=27");
+  assert.equal(invalidWeeks.response.status, 400);
+});
