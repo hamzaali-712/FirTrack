@@ -1606,6 +1606,27 @@ p {
     padding: 0.65rem 0;
   }
 
+  .wordmark,
+  .application-nav a,
+  .profile-library-link,
+  .text-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .profile-page .account-header {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+  }
+
+  .profile-header-actions {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
   .profile-number-grid {
     grid-template-columns: 1fr;
   }
@@ -1620,6 +1641,11 @@ p {
 
   .profile-greeting {
     display: none;
+  }
+
+  .analytics-table-details summary {
+    min-height: 2.75rem;
+    align-content: center;
   }
 }
 
@@ -2304,7 +2330,7 @@ p {
 
 .workout-set input[type="number"] {
   width: 100%;
-  min-height: 2.6rem;
+  min-height: 2.75rem;
   padding: 0.55rem 0.65rem;
   border: 1px solid var(--color-line);
   border-radius: 0.55rem;
@@ -2315,7 +2341,7 @@ p {
 .workout-set .workout-completed {
   grid-template-columns: auto 1fr;
   align-items: center;
-  min-height: 2.6rem;
+  min-height: 2.75rem;
   white-space: nowrap;
 }
 
