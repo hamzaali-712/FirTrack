@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
@@ -9,11 +9,193 @@ import { WorkoutPage } from "./pages/WorkoutPage.jsx";
 import { HistoryDetailPage, HistoryPage } from "./pages/HistoryPages.jsx";
 import { DashboardPage, ProgressPage } from "./pages/AnalyticsPages.jsx";
 
+
+/* ------------------------------------------------------------------ */
+/*  Theme Context                                                      */
+/* ------------------------------------------------------------------ */
+
+const ThemeContext = createContext({ theme: "dark", toggleTheme: () => {} });
+
+function useTheme() {
+  return useContext(ThemeContext);
+}
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem("fittrack-theme") || "dark";
+    } catch {
+      return "dark";
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("fittrack-theme", theme);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll Animation Hook                                              */
+/* ------------------------------------------------------------------ */
+
+function useScrollAnimation() {
+  useEffect(() => {
+    const elements = document.querySelectorAll("[data-animate]");
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll-to-Top Button                                               */
+/* ------------------------------------------------------------------ */
+
+function ScrollToTopButton() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const heroEl = document.getElementById("top");
+    if (!heroEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      aria-label="Scroll to top"
+      className="scroll-to-top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        fill="none"
+        height="20"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width="20"
+      >
+        <path d="M18 15l-6-6-6 6" />
+      </svg>
+    </button>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Theme Toggle Button (sun / moon)                                   */
+/* ------------------------------------------------------------------ */
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <button
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className="theme-toggle"
+      onClick={toggleTheme}
+      type="button"
+    >
+      {isDark ? (
+        /* Sun icon */
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="20"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" x2="12" y1="1" y2="3" />
+          <line x1="12" x2="12" y1="21" y2="23" />
+          <line x1="4.22" x2="5.64" y1="4.22" y2="5.64" />
+          <line x1="18.36" x2="19.78" y1="18.36" y2="19.78" />
+          <line x1="1" x2="3" y1="12" y2="12" />
+          <line x1="21" x2="23" y1="12" y2="12" />
+          <line x1="4.22" x2="5.64" y1="19.78" y2="18.36" />
+          <line x1="18.36" x2="19.78" y1="5.64" y2="4.22" />
+        </svg>
+      ) : (
+        /* Moon icon */
+        <svg
+          aria-hidden="true"
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="20"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Static Data                                                        */
+/* ------------------------------------------------------------------ */
+
 const navigation = [
   ["Features", "#features"],
   ["3D Exercises", "#demo"],
   ["How It Works", "#how-it-works"],
   ["Progress", "#progress"],
+];
+
+const featureIcons = [
+  "/assets/landing/feature-icon-1.svg",
+  "/assets/landing/feature-icon-2.svg",
+  "/assets/landing/feature-icon-3.svg",
+  "/assets/landing/feature-icon-4.svg",
+  "/assets/landing/feature-icon-5.svg",
+  "/assets/landing/feature-icon-6.svg",
 ];
 
 const features = [
@@ -73,6 +255,10 @@ const steps = [
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Shared Components                                                  */
+/* ------------------------------------------------------------------ */
+
 function SectionHeading({
   centered = false,
   description,
@@ -88,6 +274,10 @@ function SectionHeading({
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  SiteHeader (with theme toggle)                                     */
+/* ------------------------------------------------------------------ */
 
 function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -113,16 +303,7 @@ function SiteHeader() {
           </span>
           <span>FitTrack</span>
         </a>
-        <button
-          aria-controls="primary-navigation"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-          className="menu-toggle"
-          onClick={() => setMenuOpen((open) => !open)}
-          type="button"
-        >
-          <span aria-hidden="true">{menuOpen ? "Close" : "Menu"}</span>
-        </button>
+
         <div
           className={`nav-links${menuOpen ? " nav-links-open" : ""}`}
           id="primary-navigation"
@@ -155,31 +336,49 @@ function SiteHeader() {
             </>
           )}
         </div>
+
+        <div className="nav-actions">
+          <ThemeToggle />
+          <button
+            aria-controls="primary-navigation"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            className="menu-toggle"
+            onClick={() => setMenuOpen((open) => !open)}
+            type="button"
+          >
+            <span aria-hidden="true">{menuOpen ? "Close" : "Menu"}</span>
+          </button>
+        </div>
       </nav>
     </header>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  Landing Page Sections                                              */
+/* ------------------------------------------------------------------ */
 
 function AnatomyPair({ className = "" }) {
   return (
     <div className={`anatomy-pair ${className}`}>
       <figure className="anatomy-card anatomy-card-male">
         <img
-          alt="Stylized static male anatomy illustration adapted from the Open Anatomy 3D model"
+          alt="Stylized male anatomy illustration adapted from the Open Anatomy 3D model"
           height="620"
           src="/assets/landing/anatomy-male.svg"
           width="360"
         />
-        <figcaption>Male model · static SVG</figcaption>
+        <figcaption>Male model</figcaption>
       </figure>
       <figure className="anatomy-card anatomy-card-female">
         <img
-          alt="Stylized static female anatomy illustration adapted from the Open Anatomy 3D model"
+          alt="Stylized female anatomy illustration adapted from the Open Anatomy 3D model"
           height="620"
           src="/assets/landing/anatomy-female.svg"
           width="360"
         />
-        <figcaption>Female model · static SVG</figcaption>
+        <figcaption>Female model</figcaption>
       </figure>
     </div>
   );
@@ -187,7 +386,7 @@ function AnatomyPair({ className = "" }) {
 
 function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="hero-section" id="top">
+    <section aria-labelledby="hero-title" className="hero-section" id="top" data-animate>
       <div className="hero-copy">
         <p className="eyebrow hero-eyebrow">
           Personal workout tracker <span>·</span> Product preview
@@ -238,7 +437,7 @@ function Hero() {
 
 function WhyFitTrack() {
   return (
-    <section aria-labelledby="why-title" className="why-section section-pad" id="why">
+    <section aria-labelledby="why-title" className="why-section section-pad" id="why" data-animate>
       <div className="why-copy">
         <p className="eyebrow">Training, with context</p>
         <h2 id="why-title">Workouts Worth Remembering.</h2>
@@ -249,21 +448,21 @@ function WhyFitTrack() {
         </p>
       </div>
       <ul className="principle-list">
-        <li>
+        <li data-animate>
           <span aria-hidden="true">01</span>
           <div>
             <h3>Plan with control</h3>
             <p>Shape routines around your own goals and available equipment.</p>
           </div>
         </li>
-        <li>
+        <li data-animate>
           <span aria-hidden="true">02</span>
           <div>
             <h3>Train with clarity</h3>
             <p>Keep exercise details and actual set records together.</p>
           </div>
         </li>
-        <li>
+        <li data-animate>
           <span aria-hidden="true">03</span>
           <div>
             <h3>Review real history</h3>
@@ -281,6 +480,7 @@ function Features() {
       aria-labelledby="features-title"
       className="features-section section-pad"
       id="features"
+      data-animate
     >
       <SectionHeading
         description="A clear place for the details that make a training routine your own."
@@ -289,8 +489,16 @@ function Features() {
         title="Everything You Need to Stay Organized."
       />
       <div className="feature-grid">
-        {features.map((feature) => (
-          <article className="feature-card" key={feature.number}>
+        {features.map((feature, index) => (
+          <article className="feature-card" key={feature.number} data-animate>
+            <img
+              alt=""
+              aria-hidden="true"
+              className="feature-icon"
+              height="48"
+              src={featureIcons[index]}
+              width="48"
+            />
             <span aria-hidden="true" className="feature-number">
               {feature.number}
             </span>
@@ -309,6 +517,7 @@ function DemoSection() {
       aria-labelledby="demo-title"
       className="demo-section section-pad"
       id="demo"
+      data-animate
     >
       <div className="demo-art">
         <div className="demo-frame">
@@ -357,6 +566,7 @@ function ExercisePreview() {
       aria-labelledby="exercise-title"
       className="exercise-section section-pad"
       id="exercises"
+      data-animate
     >
       <div className="exercise-copy">
         <SectionHeading
@@ -412,6 +622,7 @@ function ProgressPreview() {
       aria-labelledby="progress-title"
       className="progress-section section-pad"
       id="progress"
+      data-animate
     >
       <div className="progress-copy">
         <SectionHeading
@@ -431,6 +642,7 @@ function ProgressPreview() {
       <figure
         aria-describedby="progress-chart-description"
         className="chart-card"
+        data-animate
       >
         <figcaption className="chart-card-heading">
           <span>Training consistency</span>
@@ -487,6 +699,7 @@ function HowItWorks() {
       aria-labelledby="how-title"
       className="steps-section section-pad"
       id="how-it-works"
+      data-animate
     >
       <SectionHeading
         centered
@@ -497,7 +710,7 @@ function HowItWorks() {
       />
       <ol className="steps-grid">
         {steps.map((step) => (
-          <li className="step-card" key={step.number}>
+          <li className="step-card" key={step.number} data-animate>
             <span aria-hidden="true" className="step-number">
               {step.number}
             </span>
@@ -538,7 +751,7 @@ function OpenAnatomyCredit() {
 
 function Outro() {
   return (
-    <section aria-labelledby="outro-title" className="outro-section" id="outro">
+    <section aria-labelledby="outro-title" className="outro-section" id="outro" data-animate>
       <div aria-hidden="true" className="outro-watermark">
         FITTRACK
       </div>
@@ -581,7 +794,13 @@ function Outro() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Landing Page                                                       */
+/* ------------------------------------------------------------------ */
+
 function LandingPage() {
+  useScrollAnimation();
+
   return (
     <div className="landing-page">
       <a className="skip-link" href="#main-content">
@@ -598,9 +817,14 @@ function LandingPage() {
         <HowItWorks />
         <Outro />
       </main>
+      <ScrollToTopButton />
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  404                                                                */
+/* ------------------------------------------------------------------ */
 
 function NotFound() {
   return (
@@ -614,95 +838,101 @@ function NotFound() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  App Root                                                           */
+/* ------------------------------------------------------------------ */
+
 export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route element={<LandingPage />} path="/" />
-        <Route element={<LoginPage />} path="/login" />
-        <Route element={<RegisterPage />} path="/register" />
-        <Route
-          element={
-            <ProtectedRoute>
-              <ExerciseLibraryPage />
-            </ProtectedRoute>
-          }
-          path="/exercises"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <ExerciseDetailPage />
-            </ProtectedRoute>
-          }
-          path="/exercises/:exerciseId"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-          path="/profile"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <PlansPage />
-            </ProtectedRoute>
-          }
-          path="/plans"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <PlanDetailPage />
-            </ProtectedRoute>
-          }
-          path="/plans/:planId"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <WorkoutPage />
-            </ProtectedRoute>
-          }
-          path="/workout/:sessionId"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <HistoryPage />
-            </ProtectedRoute>
-          }
-          path="/history"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <HistoryDetailPage />
-            </ProtectedRoute>
-          }
-          path="/history/:sessionId"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-          path="/dashboard"
-        />
-        <Route
-          element={
-            <ProtectedRoute>
-              <ProgressPage />
-            </ProtectedRoute>
-          }
-          path="/progress"
-        />
-        <Route element={<NotFound />} path="*" />
-      </Routes>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Routes>
+          <Route element={<LandingPage />} path="/" />
+          <Route element={<LoginPage />} path="/login" />
+          <Route element={<RegisterPage />} path="/register" />
+          <Route
+            element={
+              <ProtectedRoute>
+                <ExerciseLibraryPage />
+              </ProtectedRoute>
+            }
+            path="/exercises"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <ExerciseDetailPage />
+              </ProtectedRoute>
+            }
+            path="/exercises/:exerciseId"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+            path="/profile"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <PlansPage />
+              </ProtectedRoute>
+            }
+            path="/plans"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <PlanDetailPage />
+              </ProtectedRoute>
+            }
+            path="/plans/:planId"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <WorkoutPage />
+              </ProtectedRoute>
+            }
+            path="/workout/:sessionId"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <HistoryPage />
+              </ProtectedRoute>
+            }
+            path="/history"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <HistoryDetailPage />
+              </ProtectedRoute>
+            }
+            path="/history/:sessionId"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+            path="/dashboard"
+          />
+          <Route
+            element={
+              <ProtectedRoute>
+                <ProgressPage />
+              </ProtectedRoute>
+            }
+            path="/progress"
+          />
+          <Route element={<NotFound />} path="*" />
+        </Routes>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

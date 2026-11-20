@@ -1,4 +1,5 @@
 import { resolve, dirname } from "node:path";
+import { isIP } from "node:net";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 
@@ -23,6 +24,11 @@ export function getConfig(env = process.env) {
   const port = Number(env.PORT ?? 5000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
     throw new Error("PORT must be an integer between 1 and 65535.");
+  }
+
+  const host = env.HOST?.trim() || "127.0.0.1";
+  if (!isIP(host)) {
+    throw new Error("HOST must be an IPv4 or IPv6 address.");
   }
 
   const nodeEnv = env.NODE_ENV ?? "development";
@@ -80,6 +86,7 @@ export function getConfig(env = process.env) {
     allowedOrigins: [...allowedOrigins],
     appOrigin,
     authHmacSecret: authHmacSecret || DEVELOPMENT_AUTH_HMAC_SECRET,
+    host,
     mongoUri,
     nodeEnv,
     port,

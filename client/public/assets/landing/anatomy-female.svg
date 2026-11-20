@@ -1,60 +1,119 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 620" role="img" aria-labelledby="title description">
-  <title id="title">Static female anatomy illustration</title>
-  <desc id="description">A simplified vector interpretation of the female Open Anatomy 3D model. It is not a 3D render, an exercise animation, or anatomy guidance.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 620" fill="none">
   <defs>
-    <linearGradient id="body" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#82c0cc"/>
-      <stop offset=".48" stop-color="#489fb5"/>
-      <stop offset="1" stop-color="#16697a"/>
+    <!-- Background glow gradients -->
+    <radialGradient id="fglow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stopColor="#489fb5" stopOpacity="0.25" />
+      <stop offset="100%" stopColor="#0b2931" stopOpacity="0" />
+    </radialGradient>
+    <linearGradient id="fgrad" x1="180" y1="40" x2="180" y2="580" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#82c0cc" />
+      <stop offset="35%" stopColor="#489fb5" />
+      <stop offset="70%" stopColor="#16697a" />
+      <stop offset="100%" stopColor="#103742" />
     </linearGradient>
-    <linearGradient id="muscle" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#ffa62b" stop-opacity=".82"/>
-      <stop offset="1" stop-color="#e77746" stop-opacity=".58"/>
+    <linearGradient id="fmuscle-active" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stopColor="#ffa62b" />
+      <stop offset="100%" stopColor="#ffc36f" />
     </linearGradient>
-    <linearGradient id="bone" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#ede7e3" stop-opacity=".82"/>
-      <stop offset="1" stop-color="#82c0cc" stop-opacity=".42"/>
+    <linearGradient id="fmuscle-secondary" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stopColor="#82c0cc" stopOpacity="0.8" />
+      <stop offset="100%" stopColor="#489fb5" stopOpacity="0.5" />
     </linearGradient>
-    <filter id="soft-shadow" x="-30%" y="-20%" width="160%" height="150%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="7"/>
-      <feOffset dy="9"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope=".28"/>
-      </feComponentTransfer>
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <filter id="fglow-filter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
-  <g fill="none" stroke="#82c0cc" stroke-opacity=".14">
-    <circle cx="180" cy="304" r="152"/>
-    <circle cx="180" cy="304" r="126"/>
-    <path d="M22 304h316M180 64v488"/>
+
+  <!-- Ambient Backdrop Glow -->
+  <circle cx="180" cy="240" r="150" fill="url(#fglow)" />
+
+  <!-- Scanning / HUD Guidelines -->
+  <g opacity="0.4">
+    <line x1="40" y1="120" x2="320" y2="120" stroke="#489fb5" stroke-dasharray="4 6" stroke-width="1" />
+    <line x1="40" y1="210" x2="320" y2="210" stroke="#489fb5" stroke-dasharray="4 6" stroke-width="1" />
+    <line x1="40" y1="310" x2="320" y2="310" stroke="#489fb5" stroke-dasharray="4 6" stroke-width="1" />
+    <line x1="40" y1="420" x2="320" y2="420" stroke="#489fb5" stroke-dasharray="4 6" stroke-width="1" />
+    <!-- HUD Target Marks -->
+    <circle cx="180" cy="235" r="5" stroke="#ffa62b" stroke-width="1.5" fill="none" />
+    <circle cx="180" cy="235" r="1.5" fill="#ffa62b" />
+    <circle cx="132" cy="165" r="3" fill="#82c0cc" />
+    <circle cx="228" cy="165" r="3" fill="#82c0cc" />
+    <circle cx="145" cy="400" r="3" fill="#ffa62b" />
+    <circle cx="215" cy="400" r="3" fill="#ffa62b" />
   </g>
-  <g filter="url(#soft-shadow)" stroke="#82c0cc" stroke-linejoin="round" stroke-width="2">
-    <ellipse cx="180" cy="69" rx="26" ry="34" fill="url(#body)"/>
-    <path d="M166 99h28l7 31-21 17-21-17z" fill="url(#body)"/>
-    <path d="M142 129c-13 3-22 13-28 29l-24 59c-7 17-13 34-16 51l-3 15c-1 8 8 12 13 5l15-24 24-52 19-36 17-5z" fill="url(#body)"/>
-    <path d="M218 129c13 3 22 13 28 29l24 59c7 17 13 34 16 51l3 15c1 8-8 12-13 5l-15-24-24-52-19-36-17-5z" fill="url(#body)"/>
-    <path d="M145 128c14-10 26-14 35-14s21 4 35 14c14 10 23 25 23 43l-8 76c-2 20 2 38 9 53l-17 26c-11 13-25 20-42 20s-31-7-42-20l-17-26c7-15 11-33 9-53l-8-76c0-18 9-33 23-43z" fill="url(#body)"/>
-    <path d="M138 323c13 7 27 11 42 11s29-4 42-11l21 28-14 35-20 8c-5 19-10 40-13 61l-6 81c-1 10-10 17-20 16-10-1-16-9-15-19l2-77-4-38-4 38 2 77c1 10-5 18-15 19-10 1-19-6-20-16l-6-81c-3-21-8-42-13-61l-20-8-14-35z" fill="url(#body)"/>
+
+  <!-- ATHLETIC FEMALE SILHOUETTE (Clean Vector Geometry) -->
+  <g id="female-body" filter="drop-shadow(0 12px 24px rgba(0,0,0,0.35))">
+    <!-- Head & Hair Knot -->
+    <ellipse cx="180" cy="62" rx="20" ry="25" fill="url(#fgrad)" />
+    <circle cx="180" cy="38" r="9" fill="url(#fgrad)" opacity="0.8" />
+    <path d="M171 85 L189 85 L192 106 L168 106 Z" fill="url(#fgrad)" opacity="0.95" />
+
+    <!-- Shoulders / Deltoids (Target Accent) -->
+    <path d="M168 106 C155 110, 138 116, 126 128 C120 134, 118 144, 122 155 L132 165 C138 152, 145 142, 158 135 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+    <path d="M192 106 C205 110, 222 116, 234 128 C240 134, 242 144, 238 155 L228 165 C222 152, 215 142, 202 135 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+
+    <!-- Chest -->
+    <path d="M145 142 C156 140, 174 142, 178 152 C178 168, 168 178, 148 178 C136 178, 132 168, 134 156 Z" fill="url(#fgrad)" />
+    <path d="M215 142 C204 140, 186 142, 182 152 C182 168, 192 178, 212 178 C224 178, 228 168, 226 156 Z" fill="url(#fgrad)" />
+
+    <!-- Tapered Waist & Abs Core (Active Muscle Highlight) -->
+    <path d="M152 184 C162 183, 174 183, 177 188 C177 198, 170 202, 154 202 C148 202, 148 192, 152 184 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+    <path d="M208 184 C198 183, 186 183, 183 188 C183 198, 190 202, 206 202 C212 202, 212 192, 208 184 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+    
+    <path d="M154 208 C164 207, 174 207, 177 212 C177 222, 170 226, 156 226 C150 226, 150 216, 154 208 Z" fill="url(#fmuscle-secondary)" />
+    <path d="M206 208 C196 207, 186 207, 183 212 C183 222, 190 226, 204 226 C210 226, 210 216, 206 208 Z" fill="url(#fmuscle-secondary)" />
+
+    <!-- Obliques & Hourglass Contour -->
+    <path d="M136 172 C140 190, 148 220, 154 240 L166 242 L164 250 L146 248 C138 226, 130 195, 128 172 Z" fill="url(#fgrad)" opacity="0.85" />
+    <path d="M224 172 C220 190, 212 220, 206 240 L194 242 L196 250 L214 248 C222 226, 230 195, 232 172 Z" fill="url(#fgrad)" opacity="0.85" />
+
+    <!-- Arms -->
+    <!-- Left Arm -->
+    <path d="M120 160 C114 178, 108 206, 106 226 C104 235, 112 238, 118 232 C122 218, 128 190, 130 174 Z" fill="url(#fgrad)" />
+    <path d="M106 230 C102 250, 94 280, 90 300 C88 307, 95 311, 101 306 C106 292, 114 262, 116 238 Z" fill="url(#fgrad)" />
+    <path d="M89 303 C87 311, 85 323, 88 327 C90 330, 96 330, 98 323 L100 309 Z" fill="url(#fgrad)" opacity="0.8" />
+
+    <!-- Right Arm -->
+    <path d="M240 160 C246 178, 252 206, 254 226 C256 235, 248 238, 242 232 C238 218, 232 190, 230 174 Z" fill="url(#fgrad)" />
+    <path d="M254 230 C258 250, 266 280, 270 300 C272 307, 265 311, 259 306 C254 292, 246 262, 244 238 Z" fill="url(#fgrad)" />
+    <path d="M271 303 C273 311, 275 323, 272 327 C270 330, 264 330, 262 323 L260 309 Z" fill="url(#fgrad)" opacity="0.8" />
+
+    <!-- Athletic Hips / Glutes -->
+    <path d="M146 242 C134 256, 128 278, 136 304 C142 324, 160 326, 180 326 C200 326, 218 324, 224 304 C232 278, 226 256, 214 242 Z" fill="url(#fgrad)" />
+
+    <!-- Glutes & Quads (Target Muscle Highlight) -->
+    <!-- Left Leg -->
+    <path d="M142 320 C134 345, 128 385, 134 420 C138 438, 154 442, 162 428 C170 400, 172 350, 174 322 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+    <!-- Right Leg -->
+    <path d="M218 320 C226 345, 232 385, 226 420 C222 438, 206 442, 198 428 C190 400, 188 350, 186 322 Z" fill="url(#fmuscle-active)" opacity="0.9" filter="url(#fglow-filter)" />
+
+    <!-- Knees -->
+    <ellipse cx="148" cy="442" rx="12" ry="11" fill="url(#fgrad)" />
+    <ellipse cx="212" cy="442" rx="12" ry="11" fill="url(#fgrad)" />
+
+    <!-- Calves & Shins -->
+    <path d="M140 454 C134 476, 130 505, 137 534 C141 546, 153 548, 157 538 C162 514, 160 480, 156 454 Z" fill="url(#fgrad)" />
+    <path d="M220 454 C226 476, 230 505, 223 534 C219 546, 207 548, 203 538 C198 514, 200 480, 204 454 Z" fill="url(#fgrad)" />
+
+    <!-- Feet -->
+    <path d="M137 538 C131 550, 126 564, 122 572 C120 576, 124 580, 134 580 L160 580 C164 580, 164 574, 160 564 L156 538 Z" fill="url(#fgrad)" opacity="0.9" />
+    <path d="M223 538 C229 550, 234 564, 238 572 C240 576, 236 580, 226 580 L200 580 C196 580, 196 574, 200 564 L204 538 Z" fill="url(#fgrad)" opacity="0.9" />
   </g>
-  <g fill="url(#muscle)" opacity=".78">
-    <path d="M151 151c8-8 18-12 29-12s21 4 29 12l-5 27c-7 8-15 12-24 12s-17-4-24-12z"/>
-    <path d="M158 201c6-6 14-9 22-9s16 3 22 9l-3 17c-5 4-12 6-19 6s-14-2-19-6z"/>
-    <path d="M162 230c5-4 11-6 18-6s13 2 18 6l-3 16c-4 3-9 4-15 4s-11-1-15-4z"/>
-    <path d="M164 257c5-4 10-6 16-6s11 2 16 6l-4 15c-3 3-7 4-12 4s-9-1-12-4z"/>
-    <path d="M125 168c9-8 17-8 24 0l-11 33-14 11-9-9zM235 168c-9-8-17-8-24 0l11 33 14 11 9-9z"/>
-    <path d="M139 364c12-8 26-11 41-11s29 3 41 11l-8 33-24 9-9-18-9 18-24-9z"/>
-    <path d="M146 416c9-6 19-8 31-7l-4 42-20 21-7-28zM214 416c-9-6-19-8-31-7l4 42 20 21 7-28z"/>
-  </g>
-  <g fill="none" stroke="url(#bone)" stroke-linecap="round" stroke-width="2">
-    <path d="M180 133v189M161 145l19 15 19-15M154 182l26 11 26-11M154 214l26 10 26-10M157 245l23 8 23-8M180 283v38"/>
-    <path d="M180 345l-18 48 13 61-4 77M180 345l18 48-13 61 4 77"/>
-  </g>
-  <g fill="none" stroke="#ede7e3" stroke-linecap="round" stroke-opacity=".58" stroke-width="1.5">
-    <path d="M100 216l20 9M91 239l20 8M260 216l-20 9M269 239l-20 8"/>
-    <path d="M180 199v71M156 284c7 7 15 10 24 10s17-3 24-10"/>
+
+  <!-- Fitness UI Overlay Badges -->
+  <g>
+    <!-- Upper Badge (Core Focus) -->
+    <rect x="236" y="196" width="104" height="26" rx="6" fill="#103742" fill-opacity="0.9" stroke="#ffa62b" stroke-width="1" />
+    <circle cx="248" cy="209" r="4" fill="#ffa62b" />
+    <text x="258" y="213" fill="#ede7e3" font-family="Manrope, sans-serif" font-size="10" font-weight="700">CORE · 96%</text>
+    <line x1="214" y1="209" x2="236" y2="209" stroke="#ffa62b" stroke-width="1" stroke-dasharray="2 2" />
+
+    <!-- Lower Badge (Glutes Focus) -->
+    <rect x="20" y="320" width="102" height="26" rx="6" fill="#103742" fill-opacity="0.9" stroke="#82c0cc" stroke-width="1" />
+    <circle cx="32" cy="333" r="4" fill="#82c0cc" />
+    <text x="42" y="337" fill="#ede7e3" font-family="Manrope, sans-serif" font-size="10" font-weight="700">GLUTES · 91%</text>
+    <line x1="122" y1="333" x2="136" y2="333" stroke="#82c0cc" stroke-width="1" stroke-dasharray="2 2" />
   </g>
 </svg>

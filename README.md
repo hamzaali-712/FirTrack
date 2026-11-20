@@ -36,7 +36,7 @@ npm run seed:exercises
 
 Exercise discovery requires an authenticated user. Registration and profile routes are available at `/register`, `/login`, and `/profile`; the exercise library and details are at `/exercises` and `/exercises/:exerciseId`.
 
-The API connects to MongoDB before listening. Startup reports a configuration or connection failure and exits nonzero rather than serving an application that cannot persist data. `GET /api/v1/health` is the API liveness check; `GET /api/v1/ready` reports whether MongoDB is connected.
+The API connects to MongoDB and awaits registered model indexes before listening. Startup reports a configuration, connection, or index-initialization failure and exits nonzero rather than serving an application that cannot persist data safely. `HOST` defaults to `127.0.0.1`; set it to a platform-required IPv4/IPv6 bind address only when appropriate. `GET /api/v1/health` is the API liveness check; `GET /api/v1/ready` reports whether MongoDB is connected.
 
 ## Checks
 
@@ -44,11 +44,12 @@ The API connects to MongoDB before listening. Startup reports a configuration or
 npm test
 npm run test:auth
 npm run test:exercises
+npm run test:deployment-smoke
 npm run test:db
 npm run build
 ```
 
-`npm run test:db` starts an ephemeral MongoDB replica set through `mongodb-memory-server` and verifies the Mongoose connection and a temporary document write. Its first run downloads a MongoDB binary to the local package cache. `npm run test:auth` tests authentication/profile endpoints and `npm run test:exercises` tests catalog seed, search, filters, and details, each against an ephemeral replica set. These checks do not verify production Atlas access or later fitness features.
+`npm run test:db` starts an ephemeral MongoDB replica set through `mongodb-memory-server` and verifies critical indexes, connection, and a temporary document write. Its first run downloads a MongoDB binary to the local package cache. `npm run test:auth` tests authentication/profile endpoints and `npm run test:exercises` tests catalog seed, search, filters, and details, each against an ephemeral replica set. These checks do not verify production Atlas access. `npm run smoke:deployment` makes read-only checks against `FITTRACK_DEPLOYMENT_URL` (SPA root, liveness, readiness, and anonymous session denial); it requires an HTTPS origin except for loopback testing and does not create user data.
 
 ## Current implementation status
 
@@ -75,6 +76,10 @@ A licensed 3D feasibility candidate has been identified: [Open Anatomy 3D](https
 **Module 09 — Dashboard and Analytics:** Implemented authenticated, completed-only dashboard and progress summaries. The API validates IANA timezones, defaults to UTC, computes Monday-start local week boundaries, returns exactly bounded zero-filled week series, calculates completed sets and external-load volume from actual persisted sets, and excludes abandoned/in-progress workouts. Unit tests passed for the 1,330 kg·reps benchmark, duration-only volume exclusion, clock inconsistency, and timezone/Monday boundaries; integration tests passed for dashboard/progress, invalid timezone/weeks, cross-user isolation, and completed-only metrics. Dashboard/progress React routes and accessible chart/table equivalents are implemented. Module 10’s browser flow checked persisted workout totals (including 480 kg·reps) and the chart’s data-table alternative at 320px and actual 200% browser zoom; screen-reader chart review and cross-browser checks remain in `future_pendings`.
 
 **Module 10 — Quality Engineering (verification performed; release gates remain blocked):** The current API/config, auth, catalog, plans, sessions/history/analytics, MongoDB, calculation, and asset suites passed (42 automated tests total); the production build passed. Browser E2E used a disposable MongoDB replica set and seeded test catalog to exercise registration/login, plan creation, performed-set save and reload, completion, history detail, dashboard, progress, active-session resume, abandon, and a simulated 503 save failure. The first 320px profile check found horizontal overflow; responsive navigation wrapping was corrected, then all nine authenticated screens passed the 320px no-horizontal-overflow check. Landing widths 320–1440px, plus landing and all nine authenticated screens at actual 200% browser zoom, showed no horizontal overflow. Mobile menu/skip-link keyboard smoke tests, reduced-motion preference, and selected 44px touch targets were checked. Full WCAG/axe and screen-reader audits and cross-browser runs remain outstanding. See the [quality verification report](./FitTrack-Professional-Docs/docs/QUALITY-VERIFICATION-REPORT.md). This does not clear the unreviewed 3D asset release gate.
+
+**Module 11 — Deployment and Handoff (preparation implemented; live deployment blocked):** Added validated IPv4/IPv6 API binding (`HOST`, loopback by default), startup waiting for registered Mongoose model indexes, a read-only deployment smoke command, and an operations guide aligned with the actual runtime configuration and package scripts. The selected target is a Render API with a Vercel SPA and same-origin `/api/v1` proxy. Vercel CLI reports logged out, Windows Application Control blocked the Render CLI binary, service URLs are unknown, and production MongoDB readiness/secret setup is unconfirmed. Automated and local smoke results are recorded in [the deployment verification report](./FitTrack-Professional-Docs/docs/DEPLOYMENT-VERIFICATION-REPORT.md). No live deployment is claimed. The 3D rights/movement-review gate, full accessibility audit, and cross-browser checks also remain open.
+
+See the consolidated [module status and remaining work](./FitTrack-Professional-Docs/docs/MODULE-STATUS-AND-REMAINING-WORK.md) before resuming development or deployment.
 
 The static anatomy preview is a fallback, not the required verified 3D exercise demonstration. Module 01 remains incomplete: Atlas did not reach a primary, the Open Anatomy assets have no exercise rig/animation, rights-chain review is outstanding, and no movement clip has received independent review.
 

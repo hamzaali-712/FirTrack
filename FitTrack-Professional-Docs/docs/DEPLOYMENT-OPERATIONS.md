@@ -1,12 +1,12 @@
 # FitTrack — Environments, Deployment, Reliability and Runbook
 
-> **Project:** FitTrack · **Version:** 2.0 planning baseline · **Prepared:** 2026-11-18  
-> **Status:** Design/specification only; no implementation, live deployment, production security, test pass, medical accuracy review, or third-party asset license is claimed.  
+> **Project:** FitTrack · **Version:** 2.1 deployment handoff · **Prepared:** 2026-11-18
+> **Status:** Provider-neutral deployment preparation is implemented and locally verified. The user selected Vercel for the SPA and Render for the API, but no projects, public origin, production database, or live deployment are configured or verified. The reviewed 3D asset release gate remains blocked.
 > **Constraints:** 2 developers · 8-week delivery window · MongoDB, Express.js, React.js, Node.js (MERN) · responsive web app.  
 
 
 ## 1. Architecture strategy
-One React SPA built via Vite, one Node/Express modular monolith, one MongoDB replica-set-backed persistent store, static versioned 3D GLB/poster assets. HTTPS same-origin edge is preferred: `/` serves React and `/api/v1` proxies to Express. Provider not yet selected; do not claim any free tier, SLA, database uptime or successful launch.
+One React SPA built via Vite, one Node/Express modular monolith, one MongoDB replica-set-backed persistent store, static versioned 3D GLB/poster assets. The selected topology is a Vercel SPA with `/api/v1` proxied to a Render API so session cookies remain same-origin; the Render `APP_ORIGIN` must exactly match the Vercel production origin. No projects or service URLs have been provisioned. Do not claim any free tier, SLA, database uptime or successful launch. The API bind address is configured by `HOST` (default `127.0.0.1`); Render must bind to its required public/container interface.
 
 ```mermaid
 flowchart TD
@@ -27,46 +27,56 @@ flowchart TD
 | Production-style release | Static HTTPS | Express behind HTTPS edge | Restricted managed replica set | Secure cookie/origin/CSRF; approved versioned public media |
 
 ## 3. Configuration and secret hygiene
-Suggested `server/.env.example` **names only**:
+The root `.env.example` and `server/src/config/env.js` define the current runtime configuration:
 ```dotenv
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=<local-or-managed-mongodb-uri>
-APP_ORIGIN=http://localhost:5173
-SESSION_COOKIE_NAME=fittrack.sid
-SESSION_MAX_AGE_SECONDS=604800
-SESSION_TOKEN_HASH_KEY=<strong-random-secret>
-CSRF_SECRET=<strong-random-secret-if-selected>
-LOG_LEVEL=info
+NODE_ENV=production
+HOST=0.0.0.0
+PORT=<platform-assigned-port>
+MONGODB_URI=<private-mongodb-uri>
+APP_ORIGIN=https://<public-app-origin>
+AUTH_HMAC_SECRET=<private-random-secret-of-at-least-32-characters>
+TRUST_PROXY_HOPS=<exact-trusted-proxy-hop-count>
 ```
-These are placeholders; actual auth bootstrap may introduce different configuration. Store secrets in deployment secret storage, never in `.env.example` values, version control, screenshots, React `VITE_*`, client bundles or console logs. Validate startup environment and fail closed in deployment if required secrets or trusted origins are missing.
+`HOST` defaults to loopback and accepts an IPv4 or IPv6 address. `TRUST_PROXY_HOPS` defaults to `0`; set it only to the exact number of trusted proxies in the chosen topology. The API validates the production HTTPS origin and a non-placeholder HMAC secret. Store `MONGODB_URI` and `AUTH_HMAC_SECRET` in deployment secret storage; never place them in source control, screenshots, React `VITE_*` variables, client bundles, or console logs. Never paste credentials into chat. Rotate any credential previously exposed outside private secret storage.
 
-## 4. Local reproducibility gates (commands are proposed)
-```bash
-# Example only — exact package scripts must be created and tested in M1.
-npm install
-npm run lint
-npm run test
+## 4. Reproducibility and deployment smoke checks
+Run from the repository root with the documented Node/npm versions:
+```powershell
+npm ci
+npm test
+npm run test:auth
+npm run test:exercises
+npm run test:plans
+npm run test:sessions
+npm run test:analytics
+npm run test:db
+npm run test:deployment-smoke
 npm run build
-# npm run dev:client and npm run dev:server can be provided by root scripts.
 ```
-Document exact supported Node LTS version and verified package versions after lockfile creation. Mongoose 9 requires Node >=20.19; whether to adopt the currently supported major must be decided with Node/driver/MongoDB version tests. Do not pin an unverified major from a generic plan.
+`npm run test:db` uses an ephemeral MongoDB replica set; it does not verify access to a managed production database. The root `start` script starts the API only. The selected hosting edge must serve `client/dist` and proxy `/api/v1` to the API over the same HTTPS origin.
+
+The read-only deployment smoke command checks the SPA root, API liveness, API readiness, and that an anonymous request to the private session endpoint is rejected:
+```powershell
+$env:FITTRACK_DEPLOYMENT_URL = "https://<public-app-origin>"
+npm run smoke:deployment
+```
+For a local Vite preview, HTTP is allowed only on loopback. The command performs GET requests only; it creates no accounts or workout records and requires no production credentials.
 
 ## 5. Database startup and index safety
-App must connect only with scoped credentials. Ensure replica-set configuration works **before** relying on transactions. Apply unique email, slug, partial active-session and idempotency indexes before accepting writes; index-create errors must block deployment. Build upgrade plan to avoid unique conflicts in existing data. Test migration/seed twice and check category counts. DNS/TLS/connection pool/p95 should be measured after selecting actual hosting.
+The API connects with `MONGODB_URI` before listening and awaits Mongoose initialization for every registered model, including its declared indexes. Index creation failures therefore block startup rather than allowing writes against an unprepared database. Critical indexes include unique user email, the partial one-active-session index, idempotency uniqueness/TTL, and session TTL. The integration test verifies these against an ephemeral replica set. This is not a migration system: review index changes and existing-data conflicts before production rollout, use appropriately scoped credentials, and test any seed/migration twice. Replica-set configuration is required for transactional features. DNS/TLS, connection pool behavior, and p95 latency remain unmeasured until the selected platform projects and production database are provisioned.
 
 ## 6. Release pipeline
-1. Merge reviewed code to protected main; record build SHA and changelog.
-2. Run lockfile integrity/dependency checks and lint, unit, API, browser and a11y suites.
-3. Build SPA and Express artifact; build metadata manifest; ensure no secrets/source maps with sensitive data.
-4. Validate approved model/animation registry and referenced asset hashes; upload versioned static media.
-5. Back up database if release changes schema; run migration/index checks; controlled idempotent seed.
-6. Deploy Express and SPA behind HTTPS, strict origins and CSP; check cache rules.
-7. Run staging then live smoke: register, login, catalog, 3D or fallback, two plans, set save, refresh, complete, history, logout, cross-user ID block.
-8. Record release approval and observed metrics; if smoke fails, stop exposure/rollback under reviewed compatibility plan.
+The application has no provider-specific deployment pipeline yet. Before a real release:
+1. Provision/link the Render API and Vercel SPA projects; determine their exact production origins, MongoDB deployment, trusted-proxy topology, and secret-storage mechanism.
+2. Run lockfile integrity, automated tests, production build, and the required accessibility/cross-browser checks.
+3. Verify approved model/animation rights and movement review; the current 3D release gate is not cleared.
+4. Back up production data before schema/index changes; review index conflicts and any controlled idempotent seed.
+5. Deploy the API and SPA behind HTTPS with Vercel same-origin `/api/v1` proxying to Render, secure cookies, strict origins, and reviewed cache/CSP rules.
+6. Run `npm run smoke:deployment`, then the authenticated staging scenarios in the QA plan using non-production accounts.
+7. Record the build SHA, observed results, approval, and provider-specific rollback procedure. Do not label the release complete when any gate has not run.
 
 ## 7. Observability
-Application log fields: timestamp, requestId, route template, method, status, latencyMs, high-level error code, safe environment/build ID; no password, body, personal health info, cookies, CSRF value, token, Mongo URI. Useful metrics: request rate, p50/p95 latency, 5xx frequency, DB connection/readiness, auth rejection, idempotency conflict, slow query, 3D load/error count **without identity**, static asset 404/size. `GET /api/v1/health` is liveness only; separate readiness check required to confirm DB connectivity/indexes.
+Application log fields: timestamp, requestId, route template, method, status, latencyMs, high-level error code, safe environment/build ID; no password, body, personal health info, cookies, CSRF value, token, Mongo URI. Useful metrics: request rate, p50/p95 latency, 5xx frequency, DB connection/readiness, auth rejection, idempotency conflict, slow query, 3D load/error count **without identity**, static asset 404/size. `GET /api/v1/health` is liveness; `GET /api/v1/ready` reports database connectivity. Since index initialization completes before the listener starts, a live process has also passed its startup index initialization, but readiness does not independently re-audit indexes.
 
 ## 8. Availability, recovery and backup
 - On DB outage return safe 503; **never fake a successful set save**.
@@ -83,11 +93,12 @@ Rollback of frontend/media is straightforward when assets are content-versioned,
 Release ID: TBD
 Commit: TBD
 HTTPS URL: TBD
-Database indexes verified: NOT RUN
+Database indexes verified: ephemeral replica-set integration test only; production NOT RUN
 Migrations/seed log: NOT RUN
 CSRF/cookie audit: NOT RUN
 3D licensed asset check: NOT RUN
-E2E smoke test: NOT RUN
+Read-only deployment smoke: locally testable; deployed URL NOT PROVIDED
+Authenticated staging E2E: NOT RUN
 Accessibility test: NOT RUN
 Rollback drill: NOT RUN
 Approvers: TBD

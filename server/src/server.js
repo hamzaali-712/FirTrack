@@ -8,8 +8,9 @@ async function startServer() {
   await connectDatabase(config.mongoUri);
 
   const app = createApp({ config });
-  const server = app.listen(config.port, "127.0.0.1", () => {
-    console.log(`FitTrack API listening on http://127.0.0.1:${config.port}`);
+  const displayHost = config.host.includes(":") ? `[${config.host}]` : config.host;
+  const server = app.listen(config.port, config.host, () => {
+    console.log(`FitTrack API listening on http://${displayHost}:${config.port}`);
   });
 
   const shutdown = (signal) => {

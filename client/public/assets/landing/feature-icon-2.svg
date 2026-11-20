@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="fi2-grad" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#489fb5" />
+      <stop offset="100%" stopColor="#82c0cc" />
+    </linearGradient>
+    <linearGradient id="fi2-accent" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#ffa62b" />
+      <stop offset="100%" stopColor="#ffc36f" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#fi2-grad)" fill-opacity="0.12" stroke="url(#fi2-grad)" stroke-width="1.5" />
+  <!-- Clipboard / Plan -->
+  <path d="M14 14H34V38C34 39.1 33.1 40 32 40H16C14.9 40 14 39.1 14 38V14Z" stroke="url(#fi2-grad)" stroke-width="2" />
+  <rect x="18" y="8" width="12" height="6" rx="2" fill="url(#fi2-accent)" />
+  <path d="M19 22H29M19 28H29M19 34H25" stroke="#ede7e3" stroke-width="2" stroke-linecap="round" />
+</svg>

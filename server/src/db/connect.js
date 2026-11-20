@@ -5,5 +5,8 @@ export async function connectDatabase(uri) {
     serverSelectionTimeoutMS: 5000,
   });
 
+  const models = mongoose.modelNames().map((name) => mongoose.model(name));
+  await Promise.all(models.map((model) => model.init()));
+
   return mongoose.connection;
 }

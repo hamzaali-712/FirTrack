@@ -16,6 +16,10 @@ test("configuration validates MongoDB URI and server port", () => {
     /PORT must be an integer/,
   );
   assert.throws(
+    () => getConfig({ MONGODB_URI: "mongodb://localhost/db", HOST: "0.0.0.0/24" }),
+    /HOST must be an IPv4 or IPv6 address/,
+  );
+  assert.throws(
     () =>
       getConfig({
         MONGODB_URI: "mongodb://localhost/db",
@@ -40,12 +44,21 @@ test("configuration accepts the local development settings", () => {
       appOrigin: "http://localhost:5173",
       authHmacSecret:
         "fittrack-development-only-hmac-secret-not-for-production",
+      host: "127.0.0.1",
       mongoUri: "mongodb://127.0.0.1:27017/fittrack",
       nodeEnv: "development",
       port: 5000,
       trustProxyHops: 0,
     },
   );
+});
+
+test("configuration accepts an explicitly selected IP bind address", () => {
+  const config = getConfig({
+    MONGODB_URI: "mongodb://127.0.0.1:27017/fittrack",
+    HOST: "0.0.0.0",
+  });
+  assert.equal(config.host, "0.0.0.0");
 });
 
 test("production requires a strong HMAC secret and validates proxy hops", () => {

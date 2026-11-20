@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="fi6-grad" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#489fb5" />
+      <stop offset="100%" stopColor="#82c0cc" />
+    </linearGradient>
+    <linearGradient id="fi6-accent" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#ffa62b" />
+      <stop offset="100%" stopColor="#ffc36f" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#fi6-grad)" fill-opacity="0.12" stroke="url(#fi6-grad)" stroke-width="1.5" />
+  <!-- Trending / Analytics Chart -->
+  <path d="M12 34L20 26L26 31L36 17" stroke="url(#fi6-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M28 17H36V25" stroke="url(#fi6-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="20" cy="26" r="2" fill="url(#fi6-grad)" />
+  <circle cx="26" cy="31" r="2" fill="url(#fi6-grad)" />
+  <circle cx="36" cy="17" r="2.5" fill="#ede7e3" />
+</svg>

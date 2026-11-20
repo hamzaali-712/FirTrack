@@ -2,6 +2,8 @@
 
 Only work deferred or skipped during module execution is listed here. Add an item when implementation is intentionally left incomplete; remove it only after the work is verified.
 
+For the module-by-module status and a consolidated resume checklist, see [MODULE-STATUS-AND-REMAINING-WORK](FitTrack-Professional-Docs/docs/MODULE-STATUS-AND-REMAINING-WORK.md).
+
 ## Carried forward from earlier modules
 
 - [ ] Module 01 — Verify connectivity to the configured MongoDB deployment using a rotated, private development credential; prior persistence checks used an ephemeral local replica set only.
@@ -16,3 +18,6 @@ Only work deferred or skipped during module execution is listed here. Add an ite
 - [ ] Module 09 — Complete screen-reader review of the chart/table experience and cross-browser checks; the integrated-browser E2E verified dashboard/progress metrics and the data-table alternative at 320px and actual 200% browser zoom. Confirm the IANA timezone choice in a product approval step before replacing UTC as a user default.
 - [ ] Module 10 — Run an automated axe audit and manual screen-reader/assistive-technology review across forms, chart, and navigation; current checks were keyboard/focus/form-label smoke tests, not a complete WCAG audit.
 - [ ] Module 10 — Verify in supported secondary browsers; the integrated browser passed 320px responsive checks and actual 200% browser zoom, but no cross-browser matrix was run.
+- [ ] Module 11 — Resolve the Render CLI Windows Application Control block through an approved installation path and authenticate both CLIs; provision/link the selected Render API and Vercel SPA projects, determine exact public URLs and trusted-proxy topology, configure Vercel same-origin `/api/v1` proxying, then run the smoke command against the real staging URL.
+- [ ] Module 11 — Confirm/provision a production/staging MongoDB replica set and store a rotated credential only in Render's secret manager; never paste credentials into chat. Verify indexes, backups/restore, migrations, monitoring, and a provider-specific rollback drill. Current database/index checks use only an ephemeral local replica set.
+- [ ] Module 11 — Do not declare production release ready until the Module 01/05 3D rights-chain and independent movement-review gate, Module 10 accessibility audit, and cross-browser matrix are complete.
